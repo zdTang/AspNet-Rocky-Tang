@@ -29,8 +29,10 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
+            <!-- Here to bind special view with Layout !!-->
             @RenderBody()
         </main>
     </div>
@@ -40,6 +42,8 @@
             &copy; 2021 - Rocky - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
