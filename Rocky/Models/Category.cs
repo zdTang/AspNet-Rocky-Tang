@@ -16,8 +16,9 @@ namespace Rocky.Models
         [Key]
         public int Id { get; set; }                // NO NULL
         [Required]
-        public string Name { get; set; }           // allow null, nvarchar(MAX)
-
+        public string Name { get; set; }           // before it was allow null, nvarchar(MAX)
+                                                   // After adding [Refqured] it cannot be null
+                                                   // Need migrate Database
         /* This annotation will be used for " asp-for " to display on webpage*/
         [DisplayName("Display Order")]
         [Required]

@@ -431,3 +431,7 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\bin\Debug\net5.0\runtimes\win-arm\lib\n
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Category\Index.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Category\Create.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Category\Edit.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Category\Delete.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Product\Index.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Product\Upsert.cshtml.g.cs

@@ -28,3 +28,36 @@
         @section Scripts{ 
             @{<partial name="_ValidationScriptsPartial" />}
         }
+
+    ## Edit or Delete specified Row
+       # use asp-route-Key="@obj.Id" to get the Id of specified 
+       # when Edit certain row of list, we need use web form to collect field value
+       
+       
+       # for field which is not needed to be modified, but we still need pass it
+       # from the web from to the server, 
+       # for example, in this case, the Id of each row is not to modify,
+       we can use <input asp-for="Id" hidden />  to hide the field
+           take a look at Edit.cshtml
+
+           without doing this, the Id value cannot be passed back to Server
+
+      # basic EF add,delete, update operation
+
+    ## add frontawesome
+      # download and import Fontawesome library
+      # Add    <link rel="stylesheet" href="~/fontawesome/css/all.css" /> to _layout.cshtml
+      # go to Fontawesome website and copy the tag you desire to the position
+         <i class="fas fa-plus"></i>  &nbsp;   Create New Category
+    
+  ##  add attribute to model, such as [Required] will cause Database change
+      should update-database to apply this change
+  ##  For a new model class.  only after adding it into the dbContext, the migration will aware its existance
+
+
+  ##  ViewBag vs ViewData  vs TempData
+
+  ##  Strong type view vs Loosely type view
+      # view model  vs model
+      # Try to use strongly typed view other than loosely typed view
+  ##  Use third library https://sweetalert2.github.io/#examples to display alert information

@@ -11,7 +11,10 @@
             <h2 class="text-primary">Category List</h2>
         </div>
         <div class="col-6 text-right">
-            <a asp-action="Create" class="btn btn-primary">Create New Category</a> 
+            <a asp-action="Create" class="btn btn-primary">
+                @*Add Fontawesome component, just copy the desired tag here !*@
+                <i class="fas fa-plus"></i> &nbsp; Create New Category
+            </a> 
         </div>
     </div>
 
@@ -37,7 +40,16 @@
                     <!-- don't miss @@ before obj'-->
                     <td width="50%">@obj.Name</td>
                     <td width="30%">@obj.DisplayOrder</td>
-                    <td></td>
+                    <td class="text-center">
+                        <div class="w-100 btn-group" role="group">
+                            <a asp-controller="Category" asp-route-Key="@obj.Id" asp-action="Edit" class="btn btn-primary mx-1">
+                                <i class="fas fa-edit"></i>  
+                            </a>
+                            <a asp-controller="Category" asp-route-Key="@obj.Id" asp-action="Delete" class="btn btn-danger mx-1">
+                                <i class="fas fa-trash-alt"></i> 
+                            </a>
+                        </div>
+                    </td>
                 </tr>
                 }
             </tbody>
