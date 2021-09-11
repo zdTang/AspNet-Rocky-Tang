@@ -435,3 +435,4 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Category\E
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Category\Delete.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Product\Index.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Product\Upsert.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Product\Delete.cshtml.g.cs

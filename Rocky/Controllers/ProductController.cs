@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Rocky.Data;
 using Rocky.Models;
 using Rocky.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,10 +17,12 @@ namespace Rocky.Controllers
     {
 
         private readonly ApplicationDbContext _db;
+        private readonly IWebHostEnvironment _webHostEnvironment;    // see setup.cs, this IWebHostEnvironment is defined by system
 
-        public ProductController(ApplicationDbContext db)
+        public ProductController(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
         {
-            _db = db;                                          //  Dependency Injection
+            _db = db;            //  Dependency Injection
+            _webHostEnvironment = webHostEnvironment;
         }
         
         public IActionResult Index()
@@ -29,6 +34,7 @@ namespace Rocky.Controllers
             {
                 // Each Product has its Category object which represent with Foreign-key
                 // use the foreign-key to access the content of foreign key 
+                // DB connection String must have "MultipleActiveResultSets=True"  or here will have error
                 obj.Category = _db.Category.FirstOrDefault(u => u.Id == obj.CategoryId);
             }
             
@@ -39,7 +45,7 @@ namespace Rocky.Controllers
         }
 
         // Create a new Category
-        public IActionResult upsert(int? id)
+        public IActionResult Upsert(int? Key)
         {
             /* Approach one === Use ViewBag, ViewData, TempData to pass model
              * Which is loosely typed view
@@ -58,6 +64,9 @@ namespace Rocky.Controllers
             Product product = new Product();            
              */
 
+
+
+
             // Approach 2: Create a special view model and pass it via View()
             // So that we can have a strong typed view 
 
@@ -73,21 +82,26 @@ namespace Rocky.Controllers
 
 
 
-            // If use press "create a new product button"
-            if (id == null)
+            // Users click "create a new product button"
+            // It is just GET request without any variable
+            if (Key == null)
             {
-                return View(productVM);
+                return View(productVM);                      //  Return a empty content to the update View
             }
             else
             {
-                productVM.Product = _db.Product.Find(id);
+                // If users click update button, it will pass an ID here
+                
+                productVM.Product = _db.Product.Find(Key);    //  Get the content based on the ID
+                
                 if (productVM.Product == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    return View(productVM.Product);
+                    //return View(productVM.Product);         //  Return ID's content to the update View
+                    return View(productVM);
                 }
             }
 
@@ -95,35 +109,82 @@ namespace Rocky.Controllers
         // Create a new Category
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Product obj)
+        public IActionResult Upsert(ProductVM productVM)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    _db.Product.Add(obj);
-            //    _db.SaveChanges();
-            //    //return View();
-            //    //redirection  !!
-            //    /*============
-            //     * Here to re-digest 302 Redirection
-            //     * When a Post Request was sent to "Create"
-            //     * The server did sth ( insert data to DB)
-            //     * How to respond to this request, we have several approaches
-            //     * Redirection is one approach which tell the client browser 
-            //     * to request different resource
-            //     * In this case, the server tell the client to view the result
-            //     * of the POST request.
-            //     * ============*/
-            //    return RedirectToAction("index");
-            //}
-            //else
-            //{
-            //    // The validation is server-side validation
-            //    // Those Error information will display only we respond this view
-            //    // Those Errow information are not been activated when input so that they are not Client-side validation
-            //    return View(obj);
-            //}
+            if (ModelState.IsValid)
+            {
+                
+                var files = HttpContext.Request.Form.Files;             // HttpContext object
+                
+                string webRootPath = _webHostEnvironment.WebRootPath;   // IWebHostEnvironment is injected by the system
+                if (productVM.Product.Id == 0)
+                {
+                    // be aware: the ID of new created record is useless as the it will increase automatically
+                    // if this id==0, means it is a default value of ID
+                    
+                    // creating 
+                    string upload = webRootPath + WC.ImagePath;
+                    string fileName = Guid.NewGuid().ToString();
+                    string extension = Path.GetExtension(files[0].FileName);
 
-            return Content("good");
+                    using (var fileStream = new FileStream(Path.Combine(upload, fileName + extension), FileMode.Create))
+                    {
+                        files[0].CopyTo(fileStream);         // write from Memory to specified folder
+                    }
+
+                    productVM.Product.Image = fileName + extension;   //  record the file name and save to DB
+                    _db.Product.Add(productVM.Product);
+
+                }
+                else
+                {
+                    // updating
+                    // We need to retrive the old image name 
+                    // As we only need to get the image name, so that we just add "AsNoTracking()"
+                    // Or the DbContext will tracking two IDs which will cause ERROR
+                    // why noe just retrive image name here ???!!!
+                    var objFromDb = _db.Product.AsNoTracking().FirstOrDefault(u => u.Id == productVM.Product.Id);
+                    if (files.Count > 0)
+                    {
+                        string upload = webRootPath + WC.ImagePath;
+                        string fileName = Guid.NewGuid().ToString();
+                        string extension = Path.GetExtension(files[0].FileName);
+                        // Delete old file
+                        var oldFile = Path.Combine(upload, objFromDb.Image);
+                        if (System.IO.File.Exists(oldFile))
+                        {
+                            System.IO.File.Delete(oldFile);
+                        }
+                        using (var fileStream = new FileStream(Path.Combine(upload, fileName + extension), FileMode.Create))
+                        {
+                            files[0].CopyTo(fileStream);         // write from Memory to specified folder
+                        }
+
+                        productVM.Product.Image = fileName + extension;   //  record the file name and save to DB
+                    }
+                    else
+                    {
+                        productVM.Product.Image = objFromDb.Image;
+                    }
+                    _db.Product.Update(productVM.Product);
+                    
+                }
+                _db.SaveChanges();
+                return RedirectToAction("index");
+            }
+            else
+            {
+                // Make sure the dropdown list can work
+                // so that we must make the viewModel have complete data
+                productVM.CategorySelectList = _db.Category.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                });
+                return View(productVM);
+            }
+            
+
         }
 
 
@@ -146,7 +207,7 @@ namespace Rocky.Controllers
         }
 
 
-        // Create a new Category
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Product obj)
@@ -181,7 +242,7 @@ namespace Rocky.Controllers
         }
 
 
-        // Create a new Category
+
         public IActionResult Delete(int? key)
         {
 
@@ -191,6 +252,8 @@ namespace Rocky.Controllers
             }
 
             var obj = _db.Product.Find(key);
+            obj.Category = _db.Category.FirstOrDefault(u => u.Id ==obj.CategoryId);
+            
             if (obj == null)
             {
                 return NotFound();
@@ -201,27 +264,40 @@ namespace Rocky.Controllers
 
         }
 
-        // Create a new Category
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(Product obj)
         {
+            // Delete image file from the Server
 
-                _db.Product.Remove(obj);
-                _db.SaveChanges();
-                //return View();
-                //redirection  !!
-                /*============
-                 * Here to re-digest 302 Redirection
-                 * When a Post Request was sent to "Create"
-                 * The server did sth ( insert data to DB)
-                 * How to respond to this request, we have several approaches
-                 * Redirection is one approach which tell the client browser 
-                 * to request different resource
-                 * In this case, the server tell the client to view the result
-                 * of the POST request.
-                 * ============*/
-                return RedirectToAction("index");
+            var ImageName = _db.Product.AsNoTracking().FirstOrDefault(u => u.Id == obj.Id).Image;
+            
+
+            string webRootPath = _webHostEnvironment.WebRootPath;   // IWebHostEnvironment is injected by the 
+            string upload = webRootPath + WC.ImagePath;
+
+
+            // Delete old file
+            var fileToBeDeleted = Path.Combine(upload, ImageName);
+            if (System.IO.File.Exists(fileToBeDeleted))
+            {
+                System.IO.File.Delete(fileToBeDeleted);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+
+
+            // Delete the Product
+
+
+            _db.Product.Remove(obj);
+            _db.SaveChanges();
+                
+            return RedirectToAction("index");
 
 
         }

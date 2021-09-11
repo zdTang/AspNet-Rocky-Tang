@@ -61,3 +61,18 @@
       # view model  vs model
       # Try to use strongly typed view other than loosely typed view
   ##  Use third library https://sweetalert2.github.io/#examples to display alert information
+
+  ##  Add summernote library -> multi-ui-editor
+      1. import library ( css and js )
+      2. copy sample code from official and insert the the cshtml we will insert the summernote
+      3. the original <input> will change to <textarea> 
+
+  ## var objFromDb = _db.Product.AsNoTracking().FirstOrDefault(u => u.Id == productVM.Product.Id);
+     AsNoTracking()  ---> EF don't allow track the same entity two times
+     see Controller(production--upsert)
+
+  ## Add "MultipleActiveResultSets=True" into the connection string
+     see Controller(production--index)
+     reference: https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets
+
+

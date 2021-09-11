@@ -58,7 +58,8 @@
                         @*TEXTBOX HERE*@
                         @*Validation should match with Data Model's Attribution'*@
                         @*The DisplayOrder of Object will be put here !*@
-                        <input asp-for="Product.Discription" class="form-control" />
+                        @*<input asp-for="Product.Discription" class="form-control" />*@
+                        <textarea asp-for="Product.Discription" class="form-control summernote"></textarea>
                         <span asp-validation-for="Product.Discription" class="text-danger"></span>
                     </div>
 
@@ -75,7 +76,6 @@
                         @*Validation should match with Data Model's Attribution'*@
                         @*The DisplayOrder of Object will be put here !*@
                         <input type="file" name="files" id="uploadBox" multiple class="form-control" />
-                        <span asp-validation-for="Product.Discription" class="text-danger"></span>
                     </div>
 
                 </div>
@@ -131,7 +131,14 @@
                 </div>
             </div>
             <div class="col-4">
-                @* Keep this empty *@
+                @* Here is little tricky *@
+                @*When user clicks "creat new product", at this moment, the id will be 0
+                while, if user clicks "edit", then the productID will be available,which will not equal to 0*@
+                @if (Model.Product.Id != 0)
+            {
+                <img src="@WC.ImagePath@Model.Product.Image" width="100%" style="border-radius:5px; border:1px solid #bbb" />
+            }
+                
             </div>
         </div>
 
@@ -146,6 +153,16 @@
     }
 
 <script>
+    // the following code came from summernode official website
+    // https://summernote.org/getting-started/#installation
+    $(document).ready(function () {
+        $('.summernote').summernote({
+        height:250
+        });
+    });
+
+
+    // the following sample code came form sweetalert official website
     function validateInput() {
         if (document.getElementById("uploadBox").value == "") {
             // use sweetalert2 library
