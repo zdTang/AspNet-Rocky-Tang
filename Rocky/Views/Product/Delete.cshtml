@@ -68,7 +68,7 @@
                     <div class="col-8">
                         @*TEXTBOX HERE*@
                         @*The DisplayOrder of Object will be put here !*@
-                        <input type="file" name="files" id="uploadBox" multiple class="form-control disabled" />
+                        <input type="file" name="files" id="uploadBox" multiple class="form-control" disabled/>
                     </div>
 
                 </div>
@@ -147,10 +147,13 @@
         // the following code came from summernode official website
         // https://summernote.org/getting-started/#installation
         $(document).ready(function () {
-            $('.summernote').summernote({
-                height: 250,
-                disable: true
-            });
+            //$('.summernote').summernote({
+            //    height: 250,
+            //    disable: true
+            //});
+            $('.summernote').summernote(
+                "disable"
+            );
         });
 
 

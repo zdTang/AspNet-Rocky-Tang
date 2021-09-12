@@ -443,3 +443,4 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Applicatio
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Application\Delete.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Application\Edit.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Application\Index.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Shared\_IndividualProductCard.cshtml.g.cs
