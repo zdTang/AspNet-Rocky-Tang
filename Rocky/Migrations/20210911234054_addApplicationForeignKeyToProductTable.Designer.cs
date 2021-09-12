@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rocky.Data;
 
 namespace Rocky.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210911234054_addApplicationForeignKeyToProductTable")]
+    partial class addApplicationForeignKeyToProductTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -18,7 +20,7 @@ namespace Rocky.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Rocky.Models.ApplicationType", b =>
+            modelBuilder.Entity("Rocky.Models.Application", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,7 +37,7 @@ namespace Rocky.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicationType");
+                    b.ToTable("Application");
                 });
 
             modelBuilder.Entity("Rocky.Models.Article", b =>
@@ -137,7 +139,7 @@ namespace Rocky.Migrations
 
             modelBuilder.Entity("Rocky.Models.Product", b =>
                 {
-                    b.HasOne("Rocky.Models.ApplicationType", "ApplicationType")
+                    b.HasOne("Rocky.Models.Application", "Application")
                         .WithMany()
                         .HasForeignKey("ApplicationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -149,7 +151,7 @@ namespace Rocky.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationType");
+                    b.Navigation("Application");
 
                     b.Navigation("Category");
                 });

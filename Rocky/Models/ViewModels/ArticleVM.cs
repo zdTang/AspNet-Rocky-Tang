@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace Rocky.Models.ViewModels
 {
-    public class ProductVM
+    public class ArticleVM
     {
-        public Product Product { get; set; }
+        public Article Article { get; set; }
         public IEnumerable<SelectListItem> CategorySelectList { get; set; }
-        public IEnumerable<SelectListItem> ApplicationTypeSelectList { get; set; }
     }
-
-
 }

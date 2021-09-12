@@ -439,3 +439,7 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Product\De
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Article\Delete.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Article\Index.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Article\Upsert.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Application\Create.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Application\Delete.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Application\Edit.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Application\Index.cshtml.g.cs

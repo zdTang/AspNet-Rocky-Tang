@@ -30,5 +30,13 @@ namespace Rocky.Models
         [ForeignKey("CategoryId")]
         public virtual Category Category { set; get; }
 
+        [Display(Name = "Application Type")]
+        public int ApplicationId { get; set; }
+        // Define a foreign key
+        // If only add this virtual Category, the foreign key has been created but not visiable
+        // we can add a CategoryID explicitely and bind it with the virtual Category property
+        [ForeignKey("ApplicationId")]
+        public virtual ApplicationType ApplicationType { set; get; }
+
     }
 }

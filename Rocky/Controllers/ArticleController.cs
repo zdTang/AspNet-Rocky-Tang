@@ -27,7 +27,7 @@ namespace Rocky.Controllers
         
         public IActionResult Index()
         {
-            /*==================
+
             IEnumerable<Product> objList = _db.Product;     //  Grab a collection from DB
             
             foreach(var obj in objList)
@@ -37,11 +37,7 @@ namespace Rocky.Controllers
                 // DB connection String must have "MultipleActiveResultSets=True"  or here will have error
                 obj.Category = _db.Category.FirstOrDefault(u => u.Id == obj.CategoryId);
             }
-
-
-            ======================*/
-           // IEnumerable<Article> objList = _db.Article.Include(u=>u.Category);   //Eager loading => have category object
-            IEnumerable<Article> objList = _db.Article;                            //Lazy loading => no category object
+            
             return View(objList);
             //var content = new ContentResult();
             //content.Content = "hello";
@@ -74,9 +70,9 @@ namespace Rocky.Controllers
             // Approach 2: Create a special view model and pass it via View()
             // So that we can have a strong typed view 
 
-            ArticleVM articleVM = new ArticleVM()
+            ProductVM productVM = new ProductVM()
             {
-                Article = new Article(),
+                Product = new Product(),
                 CategorySelectList = _db.Category.Select(i => new SelectListItem
                 {
                     Text = i.Name,
@@ -90,22 +86,22 @@ namespace Rocky.Controllers
             // It is just GET request without any variable
             if (Key == null)
             {
-                return View(articleVM);                      //  Return a empty content to the update View
+                return View(productVM);                      //  Return a empty content to the update View
             }
             else
             {
                 // If users click update button, it will pass an ID here
                 
-                articleVM.Article = _db.Article.Find(Key);    //  Get the content based on the ID
+                productVM.Product = _db.Product.Find(Key);    //  Get the content based on the ID
                 
-                if (articleVM.Article == null)
+                if (productVM.Product == null)
                 {
                     return NotFound();
                 }
                 else
                 {
                     //return View(productVM.Product);         //  Return ID's content to the update View
-                    return View(articleVM);
+                    return View(productVM);
                 }
             }
 
@@ -113,7 +109,7 @@ namespace Rocky.Controllers
         // Create a new Category
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(ArticleVM articleVM)
+        public IActionResult Upsert(ProductVM productVM)
         {
             if (ModelState.IsValid)
             {
@@ -121,7 +117,7 @@ namespace Rocky.Controllers
                 var files = HttpContext.Request.Form.Files;             // HttpContext object
                 
                 string webRootPath = _webHostEnvironment.WebRootPath;   // IWebHostEnvironment is injected by the system
-                if (articleVM.Article.Id == 0)
+                if (productVM.Product.Id == 0)
                 {
                     // be aware: the ID of new created record is useless as the it will increase automatically
                     // if this id==0, means it is a default value of ID
@@ -136,8 +132,8 @@ namespace Rocky.Controllers
                         files[0].CopyTo(fileStream);         // write from Memory to specified folder
                     }
 
-                    articleVM.Article.Image = fileName + extension;   //  record the file name and save to DB
-                    _db.Article.Add(articleVM.Article);
+                    productVM.Product.Image = fileName + extension;   //  record the file name and save to DB
+                    _db.Product.Add(productVM.Product);
 
                 }
                 else
@@ -147,7 +143,7 @@ namespace Rocky.Controllers
                     // As we only need to get the image name, so that we just add "AsNoTracking()"
                     // Or the DbContext will tracking two IDs which will cause ERROR
                     // why noe just retrive image name here ???!!!
-                    var objFromDb = _db.Article.AsNoTracking().FirstOrDefault(u => u.Id == articleVM.Article.Id);
+                    var objFromDb = _db.Product.AsNoTracking().FirstOrDefault(u => u.Id == productVM.Product.Id);
                     if (files.Count > 0)
                     {
                         string upload = webRootPath + WC.ImagePath;
@@ -164,13 +160,13 @@ namespace Rocky.Controllers
                             files[0].CopyTo(fileStream);         // write from Memory to specified folder
                         }
 
-                        articleVM.Article.Image = fileName + extension;   //  record the file name and save to DB
+                        productVM.Product.Image = fileName + extension;   //  record the file name and save to DB
                     }
                     else
                     {
-                        articleVM.Article.Image = objFromDb.Image;
+                        productVM.Product.Image = objFromDb.Image;
                     }
-                    _db.Article.Update(articleVM.Article);
+                    _db.Product.Update(productVM.Product);
                     
                 }
                 _db.SaveChanges();
@@ -180,22 +176,70 @@ namespace Rocky.Controllers
             {
                 // Make sure the dropdown list can work
                 // so that we must make the viewModel have complete data
-                articleVM.CategorySelectList = _db.Category.Select(i => new SelectListItem
+                productVM.CategorySelectList = _db.Category.Select(i => new SelectListItem
                 {
                     Text = i.Name,
                     Value = i.Id.ToString()
                 });
-                return View(articleVM.Article);
+                return View(productVM);
             }
             
 
         }
 
 
+        // Create a new Category
+        public IActionResult Edit(int? key)
+        {
+            if(key==null||key==0)
+            {
+                return NotFound();
+            }
+
+            var obj = _db.Product.Find(key);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            // pass this specified object to View
+            return View(obj);
+
+        }
 
 
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Product obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Product.Update(obj);
+                _db.SaveChanges();
+                //return View();
+                //redirection  !!
+                /*============
+                 * Here to re-digest 302 Redirection
+                 * When a Post Request was sent to "Create"
+                 * The server did sth ( insert data to DB)
+                 * How to respond to this request, we have several approaches
+                 * Redirection is one approach which tell the client browser 
+                 * to request different resource
+                 * In this case, the server tell the client to view the result
+                 * of the POST request.
+                 * ============*/
+                return RedirectToAction("index");
+            }
+            else
+            {
+                // The validation is server-side validation
+                // Those Error information will display only we respond this view
+                // Those Errow information are not been activated when input so that they are not Client-side validation
+                return View(obj);
+            }
 
+
+        }
 
 
 
@@ -207,7 +251,7 @@ namespace Rocky.Controllers
                 return NotFound();
             }
 
-            var obj = _db.Article.Find(key);
+            var obj = _db.Product.Find(key);
             obj.Category = _db.Category.FirstOrDefault(u => u.Id ==obj.CategoryId);
             
             if (obj == null)
@@ -223,11 +267,11 @@ namespace Rocky.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Article obj)
+        public IActionResult Delete(Product obj)
         {
             // Delete image file from the Server
 
-            var ImageName = _db.Article.AsNoTracking().FirstOrDefault(u => u.Id == obj.Id).Image;
+            var ImageName = _db.Product.AsNoTracking().FirstOrDefault(u => u.Id == obj.Id).Image;
             
 
             string webRootPath = _webHostEnvironment.WebRootPath;   // IWebHostEnvironment is injected by the 
@@ -250,7 +294,7 @@ namespace Rocky.Controllers
             // Delete the Product
 
 
-            _db.Article.Remove(obj);
+            _db.Product.Remove(obj);
             _db.SaveChanges();
                 
             return RedirectToAction("index");

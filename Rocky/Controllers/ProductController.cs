@@ -27,17 +27,23 @@ namespace Rocky.Controllers
         
         public IActionResult Index()
         {
+            // grab the only product to display
+            // IEnumerable<Product> objList = _db.Product;     //  Grab a collection from DB
 
-            IEnumerable<Product> objList = _db.Product;     //  Grab a collection from DB
-            
+            // grab product and foreign-key tables
+            IEnumerable<Product> objList = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType);
+
+            /*=======================          
             foreach(var obj in objList)
             {
                 // Each Product has its Category object which represent with Foreign-key
                 // use the foreign-key to access the content of foreign key 
                 // DB connection String must have "MultipleActiveResultSets=True"  or here will have error
                 obj.Category = _db.Category.FirstOrDefault(u => u.Id == obj.CategoryId);
-            }
-            
+            }        
+            =========================*/
+
+
             return View(objList);
             //var content = new ContentResult();
             //content.Content = "hello";
@@ -73,7 +79,14 @@ namespace Rocky.Controllers
             ProductVM productVM = new ProductVM()
             {
                 Product = new Product(),
+                // for Category dropdown-list
                 CategorySelectList = _db.Category.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
+                //  // for ApplicationType dropdown-list
+                ApplicationTypeSelectList = _db.ApplicationType.Select(i => new SelectListItem
                 {
                     Text = i.Name,
                     Value = i.Id.ToString()
@@ -189,57 +202,57 @@ namespace Rocky.Controllers
 
 
         // Create a new Category
-        public IActionResult Edit(int? key)
-        {
-            if(key==null||key==0)
-            {
-                return NotFound();
-            }
+        //public IActionResult Edit(int? key)
+        //{
+        //    if(key==null||key==0)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var obj = _db.Product.Find(key);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            // pass this specified object to View
-            return View(obj);
+        //    var obj = _db.Product.Find(key);
+        //    if (obj == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    // pass this specified object to View
+        //    return View(obj);
 
-        }
-
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(Product obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Product.Update(obj);
-                _db.SaveChanges();
-                //return View();
-                //redirection  !!
-                /*============
-                 * Here to re-digest 302 Redirection
-                 * When a Post Request was sent to "Create"
-                 * The server did sth ( insert data to DB)
-                 * How to respond to this request, we have several approaches
-                 * Redirection is one approach which tell the client browser 
-                 * to request different resource
-                 * In this case, the server tell the client to view the result
-                 * of the POST request.
-                 * ============*/
-                return RedirectToAction("index");
-            }
-            else
-            {
-                // The validation is server-side validation
-                // Those Error information will display only we respond this view
-                // Those Errow information are not been activated when input so that they are not Client-side validation
-                return View(obj);
-            }
+        //}
 
 
-        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Edit(Product obj)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _db.Product.Update(obj);
+        //        _db.SaveChanges();
+        //        //return View();
+        //        //redirection  !!
+        //        /*============
+        //         * Here to re-digest 302 Redirection
+        //         * When a Post Request was sent to "Create"
+        //         * The server did sth ( insert data to DB)
+        //         * How to respond to this request, we have several approaches
+        //         * Redirection is one approach which tell the client browser 
+        //         * to request different resource
+        //         * In this case, the server tell the client to view the result
+        //         * of the POST request.
+        //         * ============*/
+        //        return RedirectToAction("index");
+        //    }
+        //    else
+        //    {
+        //        // The validation is server-side validation
+        //        // Those Error information will display only we respond this view
+        //        // Those Errow information are not been activated when input so that they are not Client-side validation
+        //        return View(obj);
+        //    }
+
+
+        //}
 
 
 
@@ -253,7 +266,8 @@ namespace Rocky.Controllers
 
             var obj = _db.Product.Find(key);
             obj.Category = _db.Category.FirstOrDefault(u => u.Id ==obj.CategoryId);
-            
+            obj.ApplicationType = _db.ApplicationType.FirstOrDefault(u => u.Id == obj.ApplicationId);
+
             if (obj == null)
             {
                 return NotFound();
