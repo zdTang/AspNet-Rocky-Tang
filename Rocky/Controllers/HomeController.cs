@@ -5,6 +5,7 @@ using Rocky.Data;
 using Rocky.Examples.DI;
 using Rocky.Models;
 using Rocky.Models.ViewModels;
+using Rocky.Utility;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -47,6 +48,44 @@ namespace Rocky.Controllers
 
             return View(homeVM);
 
+        }
+
+
+        public IActionResult Details(int Id)
+        {
+
+            var mySession = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
+
+            var detailsVM = new DetailsVM()
+            {
+                Product = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Id == Id).FirstOrDefault(),
+
+                ExistsInCart = (mySession != null && mySession.Exists(u => u.ProductId == Id)) ? true : false
+            };
+
+
+            return View(detailsVM);
+        }
+
+        [HttpPost,ActionName("Details")]
+        public IActionResult DetailsPost(int Id)
+        {
+            /*====
+            var mySession = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
+            List<ShoppingCart> shoppoingCartList = new List<ShoppingCart>();
+               
+            if (mySession != null&& mySession.Count()>0)
+            {
+                shoppoingCartList = mySession;
+            }
+            ===============*/
+            var mySession = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
+
+            List<ShoppingCart> shoppoingCartList = (mySession != null && mySession.Count() > 0)? mySession: new List<ShoppingCart>();
+
+            shoppoingCartList.Add(new ShoppingCart { ProductId = Id });
+            HttpContext.Session.Set(WC.SessionCart, shoppoingCartList);
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()

@@ -75,4 +75,22 @@
      see Controller(production--index)
      reference: https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets
 
+  ## Understand View Model
+  ## Create navigator: Drop-down list
+
+  ## use Category items to create a bunch of buttons to work as Filter.
+  ## use WC static class to contain global parameters such as Directory path
+  ## Add session
+        // Dependency Injection
+            services.AddHttpContextAccessor();
+            services.AddSession(Options =>
+            {
+                Options.IdleTimeout = TimeSpan.FromMinutes(10);
+                Options.Cookie.HttpOnly = true;
+                Options.Cookie.IsEssential = true;
+            });
+
+        // Add middleware
+
+        app.UseSession();
 
