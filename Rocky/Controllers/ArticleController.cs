@@ -28,7 +28,7 @@ namespace Rocky.Controllers
         public IActionResult Index()
         {
 
-            IEnumerable<Product> objList = _db.Product;     //  Grab a collection from DB
+            IEnumerable<Article> objList = _db.Article;     //  Grab a collection from DB
             
             foreach(var obj in objList)
             {
@@ -70,9 +70,9 @@ namespace Rocky.Controllers
             // Approach 2: Create a special view model and pass it via View()
             // So that we can have a strong typed view 
 
-            ProductVM productVM = new ProductVM()
+            ArticleVM articleVM = new ArticleVM()
             {
-                Product = new Product(),
+                Article = new Article(),
                 CategorySelectList = _db.Category.Select(i => new SelectListItem
                 {
                     Text = i.Name,
@@ -86,22 +86,22 @@ namespace Rocky.Controllers
             // It is just GET request without any variable
             if (Key == null)
             {
-                return View(productVM);                      //  Return a empty content to the update View
+                return View(articleVM);                      //  Return a empty content to the update View
             }
             else
             {
                 // If users click update button, it will pass an ID here
+
+                articleVM.Article = _db.Article.Find(Key);    //  Get the content based on the ID
                 
-                productVM.Product = _db.Product.Find(Key);    //  Get the content based on the ID
-                
-                if (productVM.Product == null)
+                if (articleVM.Article == null)
                 {
                     return NotFound();
                 }
                 else
                 {
                     //return View(productVM.Product);         //  Return ID's content to the update View
-                    return View(productVM);
+                    return View(articleVM);
                 }
             }
 
@@ -109,7 +109,7 @@ namespace Rocky.Controllers
         // Create a new Category
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(ProductVM productVM)
+        public IActionResult Upsert(ArticleVM articleVM)
         {
             if (ModelState.IsValid)
             {
@@ -117,7 +117,7 @@ namespace Rocky.Controllers
                 var files = HttpContext.Request.Form.Files;             // HttpContext object
                 
                 string webRootPath = _webHostEnvironment.WebRootPath;   // IWebHostEnvironment is injected by the system
-                if (productVM.Product.Id == 0)
+                if (articleVM.Article.Id == 0)
                 {
                     // be aware: the ID of new created record is useless as the it will increase automatically
                     // if this id==0, means it is a default value of ID
@@ -132,8 +132,8 @@ namespace Rocky.Controllers
                         files[0].CopyTo(fileStream);         // write from Memory to specified folder
                     }
 
-                    productVM.Product.Image = fileName + extension;   //  record the file name and save to DB
-                    _db.Product.Add(productVM.Product);
+                    articleVM.Article.Image = fileName + extension;   //  record the file name and save to DB
+                    _db.Article.Add(articleVM.Article);
 
                 }
                 else
@@ -143,7 +143,7 @@ namespace Rocky.Controllers
                     // As we only need to get the image name, so that we just add "AsNoTracking()"
                     // Or the DbContext will tracking two IDs which will cause ERROR
                     // why noe just retrive image name here ???!!!
-                    var objFromDb = _db.Product.AsNoTracking().FirstOrDefault(u => u.Id == productVM.Product.Id);
+                    var objFromDb = _db.Article.AsNoTracking().FirstOrDefault(u => u.Id == articleVM.Article.Id);
                     if (files.Count > 0)
                     {
                         string upload = webRootPath + WC.ImagePath;
@@ -160,13 +160,13 @@ namespace Rocky.Controllers
                             files[0].CopyTo(fileStream);         // write from Memory to specified folder
                         }
 
-                        productVM.Product.Image = fileName + extension;   //  record the file name and save to DB
+                        articleVM.Article.Image = fileName + extension;   //  record the file name and save to DB
                     }
                     else
                     {
-                        productVM.Product.Image = objFromDb.Image;
+                        articleVM.Article.Image = objFromDb.Image;
                     }
-                    _db.Product.Update(productVM.Product);
+                    _db.Article.Update(articleVM.Article);
                     
                 }
                 _db.SaveChanges();
@@ -176,12 +176,12 @@ namespace Rocky.Controllers
             {
                 // Make sure the dropdown list can work
                 // so that we must make the viewModel have complete data
-                productVM.CategorySelectList = _db.Category.Select(i => new SelectListItem
+                articleVM.CategorySelectList = _db.Category.Select(i => new SelectListItem
                 {
                     Text = i.Name,
                     Value = i.Id.ToString()
                 });
-                return View(productVM);
+                return View(articleVM);
             }
             
 
@@ -210,11 +210,11 @@ namespace Rocky.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Product obj)
+        public IActionResult Edit(Article obj)
         {
             if (ModelState.IsValid)
             {
-                _db.Product.Update(obj);
+                _db.Article.Update(obj);
                 _db.SaveChanges();
                 //return View();
                 //redirection  !!
@@ -267,7 +267,7 @@ namespace Rocky.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Product obj)
+        public IActionResult Delete(Article obj)
         {
             // Delete image file from the Server
 
@@ -294,7 +294,7 @@ namespace Rocky.Controllers
             // Delete the Product
 
 
-            _db.Product.Remove(obj);
+            _db.Article.Remove(obj);
             _db.SaveChanges();
                 
             return RedirectToAction("index");

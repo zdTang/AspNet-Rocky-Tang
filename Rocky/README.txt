@@ -80,6 +80,7 @@
 
   ## use Category items to create a bunch of buttons to work as Filter.
   ## use WC static class to contain global parameters such as Directory path
+  ## Create two session extension method GET, SET
   ## Add session
         // Dependency Injection
             services.AddHttpContextAccessor();
@@ -94,3 +95,10 @@
 
         app.UseSession();
 
+  ## User registeration
+  #  for DbContext, switch DbContext to IdentityDbContext
+
+  ## Add userName field to user registeration page
+  add ApplicationUser tabel
+
+  # Admin key: Temp123*

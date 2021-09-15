@@ -2,16 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Rocky.Data;
-using Rocky.Examples.DI;
 using Rocky.Models;
 using Rocky.Models.ViewModels;
 using Rocky.Utility;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Rocky.Controllers
 {
@@ -86,6 +82,24 @@ namespace Rocky.Controllers
             shoppoingCartList.Add(new ShoppingCart { ProductId = Id });
             HttpContext.Session.Set(WC.SessionCart, shoppoingCartList);
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public IActionResult RemoveFromCart(int Id)
+        {
+            var shoppoingCartList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
+
+         if(shoppoingCartList != null && shoppoingCartList.Count() > 0)
+            {
+                shoppoingCartList.Remove(shoppoingCartList.Find(item => item.ProductId == Id));
+            }
+
+            
+            HttpContext.Session.Set(WC.SessionCart, shoppoingCartList);
+            return RedirectToAction(nameof(Index));
+
+
+
         }
 
         public IActionResult Privacy()

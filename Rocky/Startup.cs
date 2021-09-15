@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,9 +37,24 @@ namespace Rocky
 
             // Add DbContext
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-                Configuration.GetConnectionString("DefaultConnection")
-                )); 
-           
+                Configuration.GetConnectionString("DefaultConnection")));
+
+            // Added IdentityUser
+            // need packages:
+            // Microsoft.AspNetCore.Identity.EntityFrameworkcore
+            // Microsoft.AspNetCore.Identity.UI
+
+            //services.AddDefaultIdentity<IdentityUser>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // As AddDefaultIdentity<>() has not provide IdentityRole
+            // So that we need use AddIdentity()
+
+            services.AddIdentity<IdentityUser,IdentityRole>()
+                .AddDefaultTokenProviders().AddDefaultUI()            //  switched from upside
+              .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //Test by myself
             //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0
             services.AddScoped<IMyDependency, MyDependency>();
 
@@ -65,7 +81,9 @@ namespace Rocky
             app.UseStaticFiles();
 
             app.UseRouting();
-            
+
+            app.UseAuthentication();   // need it to work with IdentityUser
+                                       // should put before UseAuthorization()
 
             app.UseAuthorization();
             // Add session
@@ -73,6 +91,9 @@ namespace Rocky
 
             app.UseEndpoints(endpoints =>
             {
+                // route to Razor pages
+                endpoints.MapRazorPages();
+                // route to MVC pages
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

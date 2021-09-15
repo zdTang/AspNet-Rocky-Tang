@@ -14,5 +14,11 @@ namespace Rocky
        
         public static string ImagePath = @"\images\product\";     /**This folder is for containing images*/
         public static string SessionCart = "ShoppingCartSession";
+
+
+        // Add two strings to represent roles
+
+        public static string AdminRole = "Admin";
+        public static string CustomerRole = "Customer";
     }
 }
