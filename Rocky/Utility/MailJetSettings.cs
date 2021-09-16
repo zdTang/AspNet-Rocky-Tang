@@ -7,6 +7,8 @@ namespace Rocky.Utility
 {
     public class MailJetSettings
     {
+
+        // Attention: those fields must match with Appsetting.json totally !! or will have error
         public string ApiKey { get; set; }
         public string SecretKey { get; set; }              
     }

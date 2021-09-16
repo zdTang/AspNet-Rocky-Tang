@@ -12,20 +12,20 @@ namespace Rocky
     public static class WC
     {
        
-        public static string ImagePath = @"\images\product\";     /**This folder is for containing images*/
-        public static string SessionCart = "ShoppingCartSession";
+        public const string ImagePath = @"\images\product\";     /**This folder is for containing images*/
+        public const string SessionCart = "ShoppingCartSession";
 
 
         // Add two strings to represent roles
 
-        public static string AdminRole = "Admin";
-        public static string CustomerRole = "Customer";
+        public const string AdminRole = "Admin";
+        public const string CustomerRole = "Customer";
 
         // About Email
 
-        public static string EmailSender = "miketangtest@gmail.com";
-        public static string EmailSenderPass = "Temp123456*";
+        public const string EmailSender = "miketangtest@gmail.com";
+        public const string EmailSenderPass = "Temp123456*";
 
-        public static string EmailRecevier = "michael.tang.ca@gmail.com";
+        public const string EmailRecevier = "michael.tang.ca@gmail.com";
     }
 }

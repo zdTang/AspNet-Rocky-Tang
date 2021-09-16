@@ -15,7 +15,8 @@ using System.Threading.Tasks;
 
 namespace Rocky.Controllers
 {
-    [Authorize]  //  this attribute will prevent unregistered user to access this controller
+    //[Authorize(Roles = WC.AdminRole)]  //  this attribute will prevent unregistered user to access this controller
+    [Authorize]                    //   must login, but not to be necessarily a Admin
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _db;
