@@ -490,3 +490,7 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Areas\Identity\P
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Shared\_LoginPartial.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Cart\Index.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Cart\Summary.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\bin\Debug\net5.0\Mailjet.Client.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Cart\InquiryConfirmation.cshtml.g.cs

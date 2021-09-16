@@ -102,3 +102,22 @@
   add ApplicationUser tabel
 
   # Admin key: Temp123*
+
+
+  # add shopping Cart
+  # use Session to Add or Remove item from shopping cart
+  # even user has not registered, he can still use shopping cart
+  # [authorize] will force user to login when using certain Controller
+
+
+  # mailjet   -- send email
+  ## By now, the lastest version mailjetapi doesn't work  use old version as in tutorials ---1.2.2 works
+  # need DI 
+
+  # Proton Mail -- works not good
+  whatever send from Google or Proton Email address.   the file we send can be found in the JUNK folder !!!
+  if using Proton Email address,   the ClickME will be deleted so that we cannot confirm the account
+
+  #  we can report these email not a spam.
+
+  ## Move MailJet API keys to appsettings.json   and read it using configuration class

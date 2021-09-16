@@ -20,5 +20,12 @@ namespace Rocky
 
         public static string AdminRole = "Admin";
         public static string CustomerRole = "Customer";
+
+        // About Email
+
+        public static string EmailSender = "miketangtest@gmail.com";
+        public static string EmailSenderPass = "Temp123456*";
+
+        public static string EmailRecevier = "michael.tang.ca@gmail.com";
     }
 }
