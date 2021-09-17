@@ -996,3 +996,5 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Microso
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Rocky_Models.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Rocky_Models.pdb
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Rocky_DataAccess.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Rocky_DataAccess.pdb

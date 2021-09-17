@@ -98,3 +98,4 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\RockyControllers.Tests\obj\Deb
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\RockyControllers.Tests\obj\Debug\net5.0\ref\RockyControllers.Tests.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\RockyControllers.Tests\obj\Debug\net5.0\RockyControllers.Tests.pdb
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\RockyControllers.Tests\obj\Debug\net5.0\RockyControllers.Tests.genruntimeconfig.cache
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\RockyControllers.Tests\obj\Debug\net5.0\RockyControllers.Tests.csproj.AssemblyReference.cache
