@@ -138,7 +138,16 @@ namespace Rocky.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        //  if it is not Admin, means it is a new normal user, then sign in  after registeration
+                        //  if it is Admin, mean the Admin is creating another Admin user, do not need sign in automatically
+                        if (!User.IsInRole(WC.AdminRole))   
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index");
+                        }
                         return LocalRedirect(returnUrl);
                     }
                 }
