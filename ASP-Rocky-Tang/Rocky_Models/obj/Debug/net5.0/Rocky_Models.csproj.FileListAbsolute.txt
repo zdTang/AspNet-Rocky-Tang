@@ -1,0 +1,12 @@
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Models\obj\Debug\net5.0\Rocky_Models.csproj.AssemblyReference.cache
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Models\obj\Debug\net5.0\Rocky_Models.GeneratedMSBuildEditorConfig.editorconfig
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Models\obj\Debug\net5.0\Rocky_Models.AssemblyInfoInputs.cache
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Models\obj\Debug\net5.0\Rocky_Models.AssemblyInfo.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Models\obj\Debug\net5.0\Rocky_Models.csproj.CoreCompileInputs.cache
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Models\bin\Debug\net5.0\Rocky_Models.deps.json
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Models\bin\Debug\net5.0\Rocky_Models.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Models\bin\Debug\net5.0\ref\Rocky_Models.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Models\bin\Debug\net5.0\Rocky_Models.pdb
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Models\obj\Debug\net5.0\Rocky_Models.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Models\obj\Debug\net5.0\ref\Rocky_Models.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Models\obj\Debug\net5.0\Rocky_Models.pdb

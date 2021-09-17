@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31605.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocky", "..\Rocky\Rocky.csproj", "{98564A4D-AC3F-41DA-ACD3-BDEE89570EAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocky", "Rocky\Rocky.csproj", "{98564A4D-AC3F-41DA-ACD3-BDEE89570EAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RockyControllers.Tests", "RockyControllers.Tests\RockyControllers.Tests.csproj", "{D70321BD-0E87-402A-AA77-2CD3F7F658C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockyControllers.Tests", "RockyControllers.Tests\RockyControllers.Tests.csproj", "{D70321BD-0E87-402A-AA77-2CD3F7F658C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rocky_Utility", "Rocky_Utility\Rocky_Utility.csproj", "{4895F059-00A8-4722-9817-401EF215CEB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rocky_Models", "Rocky_Models\Rocky_Models.csproj", "{C39A2189-1C6F-4626-9C55-FBDE5EA278EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{D70321BD-0E87-402A-AA77-2CD3F7F658C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D70321BD-0E87-402A-AA77-2CD3F7F658C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D70321BD-0E87-402A-AA77-2CD3F7F658C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4895F059-00A8-4722-9817-401EF215CEB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4895F059-00A8-4722-9817-401EF215CEB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4895F059-00A8-4722-9817-401EF215CEB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4895F059-00A8-4722-9817-401EF215CEB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C39A2189-1C6F-4626-9C55-FBDE5EA278EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C39A2189-1C6F-4626-9C55-FBDE5EA278EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C39A2189-1C6F-4626-9C55-FBDE5EA278EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C39A2189-1C6F-4626-9C55-FBDE5EA278EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
