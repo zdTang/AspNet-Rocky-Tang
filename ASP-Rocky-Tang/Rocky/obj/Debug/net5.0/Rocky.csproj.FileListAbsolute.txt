@@ -971,7 +971,6 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\V
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Category\Index.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Home\Details.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
-D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Product\Delete.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Product\Index.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Product\Upsert.cshtml.g.cs
@@ -998,3 +997,4 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Rocky_M
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Rocky_Models.pdb
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Rocky_DataAccess.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Rocky_DataAccess.pdb
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Home\About.cshtml.g.cs

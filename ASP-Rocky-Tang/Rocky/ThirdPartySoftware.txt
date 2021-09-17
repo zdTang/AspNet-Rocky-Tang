@@ -2,3 +2,6 @@
 Use third library https://sweetalert2.github.io/#examples to display alert information
 summernote library -> multi-ui-editor
 mailjet   -- send email
+toastr    --  https://codeseven.github.io/toastr/
+syncfusion  -- https://www.syncfusion.com/
+dataTables  -- https://datatables.net/

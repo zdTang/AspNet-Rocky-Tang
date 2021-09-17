@@ -121,3 +121,11 @@
   #  we can report these email not a spam.
 
   ## Move MailJet API keys to appsettings.json   and read it using configuration class
+
+
+  ## Move dataAccess, data, Utility out of the main project
+  #  Need to re-build the relationship and dependency
+
+
+
+  # Add new version Bootstrap and Toastr

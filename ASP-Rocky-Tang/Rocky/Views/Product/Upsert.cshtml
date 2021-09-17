@@ -109,7 +109,7 @@
                         @*<select asp-for="CategoryId" asp-items="@ViewBag.CategoryDropDown" class="form-control">*@
                         @*ViewData is a <string, object> Dictionary, so that object type need to cast to desired type*@
                         @*<select asp-for="Product.CategoryId" asp-items="@ViewData["CategoryDropDown"] as IEnumerable<SelectListItem>" class="form-control">*@
-                        <select asp-for="Product.CategoryId" asp-items="@Model.CategorySelectList" class="form-control">
+                        <select asp-for="Product.CategoryId" asp-items="@Model.CategorySelectList" class="form-select">
                             <option disabled selected>--Selected Category--</option>
                         </select>
                         <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
@@ -129,7 +129,7 @@
                         @*<select asp-for="CategoryId" asp-items="@ViewBag.CategoryDropDown" class="form-control">*@
                         @*ViewData is a <string, object> Dictionary, so that object type need to cast to desired type*@
                         @*<select asp-for="Product.CategoryId" asp-items="@ViewData["CategoryDropDown"] as IEnumerable<SelectListItem>" class="form-control">*@
-                        <select asp-for="Product.ApplicationId" asp-items="@Model.ApplicationTypeSelectList" class="form-control">
+                        <select asp-for="Product.ApplicationId" asp-items="@Model.ApplicationTypeSelectList" class="form-select">
                             <option disabled selected>--Selected ApplicationType--</option>
                         </select>
                         <span asp-validation-for="Product.ApplicationId" class="text-danger"></span>
