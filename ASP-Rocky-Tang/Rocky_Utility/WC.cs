@@ -27,5 +27,8 @@ namespace Rocky_Utility
         public const string EmailSenderPass = "Temp123456*";
 
         public const string EmailRecevier = "michael.tang.ca@gmail.com";
+
+        public const string CategoryName = "Category";
+        public const string ApplicationTypeName = "ApplicationType";
     }
 }

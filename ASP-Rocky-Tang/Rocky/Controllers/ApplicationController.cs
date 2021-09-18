@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rocky_DataAccess.Data;
+using Rocky_DataAccess.Repository.IRepository;
 using Rocky_Models;
 using Rocky_Utility;
 using System;
@@ -14,9 +15,10 @@ namespace Rocky.Controllers
     public class ApplicationController : Controller
     {
 
-        private readonly ApplicationDbContext _db;
+        //private readonly ApplicationDbContext _db;
+        private readonly IApplicationTypeRepository _db;
 
-        public ApplicationController(ApplicationDbContext db)
+        public ApplicationController(IApplicationTypeRepository db)
         {
             _db = db;                                          //  Dependency Injection
         }
@@ -24,9 +26,10 @@ namespace Rocky.Controllers
         public IActionResult Index()
         {
 
-            IEnumerable<ApplicationType> objList = _db.ApplicationType;     //  Grab a collection from DB
+            IEnumerable<ApplicationType> objList = _db.GetAll();     //  Grab a collection from DB
             
-            
+
+
             return View(objList);
             //var content = new ContentResult();
             //content.Content = "hello";
@@ -47,8 +50,11 @@ namespace Rocky.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.ApplicationType.Add(obj);
-                _db.SaveChanges();
+                //_db.ApplicationType.Add(obj);
+                //_db.SaveChanges();
+
+                _db.Add(obj);
+                _db.Save();
                 //return View();
                 //redirection  !!
                 /*============
@@ -83,7 +89,8 @@ namespace Rocky.Controllers
                 return NotFound();
             }
 
-            var obj = _db.ApplicationType.Find(key);
+            //var obj = _db.ApplicationType.Find(key);
+            var obj = _db.Find(key.GetValueOrDefault());
             if (obj == null)
             {
                 return NotFound();
@@ -101,8 +108,11 @@ namespace Rocky.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.ApplicationType.Update(obj);
-                _db.SaveChanges();
+                //_db.ApplicationType.Update(obj);
+                //_db.SaveChanges();
+
+                _db.Update(obj);
+                _db.Save();
                 //return View();
                 //redirection  !!
                 /*============
@@ -138,7 +148,10 @@ namespace Rocky.Controllers
                 return NotFound();
             }
 
-            var obj = _db.ApplicationType.Find(key);
+            //var obj = _db.ApplicationType.Find(key);
+
+            var obj = _db.Find(key.GetValueOrDefault());
+
             if (obj == null)
             {
                 return NotFound();
@@ -155,21 +168,24 @@ namespace Rocky.Controllers
         public IActionResult Delete(ApplicationType obj)
         {
 
-                _db.ApplicationType.Remove(obj);
-                _db.SaveChanges();
-                //return View();
-                //redirection  !!
-                /*============
-                 * Here to re-digest 302 Redirection
-                 * When a Post Request was sent to "Create"
-                 * The server did sth ( insert data to DB)
-                 * How to respond to this request, we have several approaches
-                 * Redirection is one approach which tell the client browser 
-                 * to request different resource
-                 * In this case, the server tell the client to view the result
-                 * of the POST request.
-                 * ============*/
-                return RedirectToAction("index");
+                //_db.ApplicationType.Remove(obj);
+                //_db.SaveChanges();
+
+            _db.Remove(obj);
+            _db.Save();
+            //return View();
+            //redirection  !!
+            /*============
+             * Here to re-digest 302 Redirection
+             * When a Post Request was sent to "Create"
+             * The server did sth ( insert data to DB)
+             * How to respond to this request, we have several approaches
+             * Redirection is one approach which tell the client browser 
+             * to request different resource
+             * In this case, the server tell the client to view the result
+             * of the POST request.
+             * ============*/
+            return RedirectToAction("index");
 
 
         }

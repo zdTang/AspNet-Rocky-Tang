@@ -129,3 +129,7 @@
 
 
   # Add new version Bootstrap and Toastr
+
+  # Repository Pattern  vs no Repository
+  # Controller --> dbContext ---> Database
+  # Controller --> Repository --> DbContext --->Database

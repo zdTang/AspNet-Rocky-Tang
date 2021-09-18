@@ -13,3 +13,5 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Debug\net
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Debug\net5.0\Rocky_DataAccess.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Debug\net5.0\ref\Rocky_DataAccess.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Debug\net5.0\Rocky_DataAccess.pdb
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\bin\Debug\net5.0\Rocky_Utility.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\bin\Debug\net5.0\Rocky_Utility.pdb

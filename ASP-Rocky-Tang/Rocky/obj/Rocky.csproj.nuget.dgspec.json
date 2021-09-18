@@ -129,6 +129,9 @@
             "projectReferences": {
               "D:\\AspDotNetCore\\AspNet-Rocky-Tang\\ASP-Rocky-Tang\\Rocky_Models\\Rocky_Models.csproj": {
                 "projectPath": "D:\\AspDotNetCore\\AspNet-Rocky-Tang\\ASP-Rocky-Tang\\Rocky_Models\\Rocky_Models.csproj"
+              },
+              "D:\\AspDotNetCore\\AspNet-Rocky-Tang\\ASP-Rocky-Tang\\Rocky_Utility\\Rocky_Utility.csproj": {
+                "projectPath": "D:\\AspDotNetCore\\AspNet-Rocky-Tang\\ASP-Rocky-Tang\\Rocky_Utility\\Rocky_Utility.csproj"
               }
             }
           }

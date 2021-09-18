@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rocky_DataAccess.Data;
+using Rocky_DataAccess.Repository.IRepository;
 using Rocky_Models;
 using Rocky_Models.ViewModels;
 using Rocky_Utility;
@@ -19,10 +20,11 @@ namespace Rocky.Controllers
     public class ProductController : Controller
     {
 
-        private readonly ApplicationDbContext _db;
+        //private readonly ApplicationDbContext _db;
+        private readonly IProductRepository _db;
         private readonly IWebHostEnvironment _webHostEnvironment;    // see setup.cs, this IWebHostEnvironment is defined by system
 
-        public ProductController(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
+        public ProductController(/*ApplicationDbContext*/IProductRepository db, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;            //  Dependency Injection
             _webHostEnvironment = webHostEnvironment;
@@ -34,7 +36,7 @@ namespace Rocky.Controllers
             // IEnumerable<Product> objList = _db.Product;     //  Grab a collection from DB
 
             // grab product and foreign-key tables
-            IEnumerable<Product> objList = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType);
+            IEnumerable<Product> objList = _db.GetAll(includeProperties:"Category,ApplicationType");
 
             /*=======================          
             foreach(var obj in objList)
@@ -83,17 +85,10 @@ namespace Rocky.Controllers
             {
                 Product = new Product(),
                 // for Category dropdown-list
-                CategorySelectList = _db.Category.Select(i => new SelectListItem
-                {
-                    Text = i.Name,
-                    Value = i.Id.ToString()
-                }),
+                CategorySelectList = _db.GetAllDropdownList(WC.CategoryName),
                 //  // for ApplicationType dropdown-list
-                ApplicationTypeSelectList = _db.ApplicationType.Select(i => new SelectListItem
-                {
-                    Text = i.Name,
-                    Value = i.Id.ToString()
-                })
+                ApplicationTypeSelectList = _db.GetAllDropdownList(WC.ApplicationTypeName),
+                
             };
 
 
@@ -108,7 +103,7 @@ namespace Rocky.Controllers
             {
                 // If users click update button, it will pass an ID here
                 
-                productVM.Product = _db.Product.Find(Key);    //  Get the content based on the ID
+                productVM.Product = _db.Find(Key.GetValueOrDefault());    //  Get the content based on the ID
                 
                 if (productVM.Product == null)
                 {
@@ -149,7 +144,7 @@ namespace Rocky.Controllers
                     }
 
                     productVM.Product.Image = fileName + extension;   //  record the file name and save to DB
-                    _db.Product.Add(productVM.Product);
+                    _db.Add(productVM.Product);
 
                 }
                 else
@@ -159,7 +154,9 @@ namespace Rocky.Controllers
                     // As we only need to get the image name, so that we just add "AsNoTracking()"
                     // Or the DbContext will tracking two IDs which will cause ERROR
                     // why noe just retrive image name here ???!!!
-                    var objFromDb = _db.Product.AsNoTracking().FirstOrDefault(u => u.Id == productVM.Product.Id);
+                    //var objFromDb = _db.Product.AsNoTracking().FirstOrDefault(u => u.Id == productVM.Product.Id);
+
+                    var objFromDb = _db.FirstOrDefault(u => u.Id == productVM.Product.Id, isTracking:false);
                     if (files.Count > 0)
                     {
                         string upload = webRootPath + WC.ImagePath;
@@ -182,21 +179,18 @@ namespace Rocky.Controllers
                     {
                         productVM.Product.Image = objFromDb.Image;
                     }
-                    _db.Product.Update(productVM.Product);
+                    _db.Update(productVM.Product);
                     
                 }
-                _db.SaveChanges();
+                _db.Save();
                 return RedirectToAction("index");
             }
             else
             {
                 // Make sure the dropdown list can work
                 // so that we must make the viewModel have complete data
-                productVM.CategorySelectList = _db.Category.Select(i => new SelectListItem
-                {
-                    Text = i.Name,
-                    Value = i.Id.ToString()
-                });
+                productVM.CategorySelectList = _db.GetAllDropdownList(WC.CategoryName);
+                productVM.ApplicationTypeSelectList = _db.GetAllDropdownList(WC.ApplicationTypeName);
                 return View(productVM);
             }
             
@@ -267,9 +261,8 @@ namespace Rocky.Controllers
                 return NotFound();
             }
 
-            var obj = _db.Product.Find(key);
-            obj.Category = _db.Category.FirstOrDefault(u => u.Id ==obj.CategoryId);
-            obj.ApplicationType = _db.ApplicationType.FirstOrDefault(u => u.Id == obj.ApplicationId);
+            var obj = _db.FirstOrDefault(u=>u.Id==key, includeProperties:"Category,ApplicationThype");
+            
 
             if (obj == null)
             {
@@ -288,7 +281,7 @@ namespace Rocky.Controllers
         {
             // Delete image file from the Server
 
-            var ImageName = _db.Product.AsNoTracking().FirstOrDefault(u => u.Id == obj.Id).Image;
+            var ImageName = _db.FirstOrDefault(u => u.Id == obj.Id,isTracking:false).Image;
             
 
             string webRootPath = _webHostEnvironment.WebRootPath;   // IWebHostEnvironment is injected by the 
@@ -311,8 +304,8 @@ namespace Rocky.Controllers
             // Delete the Product
 
 
-            _db.Product.Remove(obj);
-            _db.SaveChanges();
+            _db.Remove(obj);
+            _db.Save();
                 
             return RedirectToAction("index");
 

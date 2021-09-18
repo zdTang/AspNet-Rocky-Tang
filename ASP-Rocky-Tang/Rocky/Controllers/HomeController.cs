@@ -2,12 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Rocky_DataAccess.Data;
+using Rocky_DataAccess.Repository;
 using Rocky_Models;
 using Rocky_Models.ViewModels;
 using Rocky_Utility;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Rocky_DataAccess.Repository.IRepository;
 
 namespace Rocky_Controllers
 {
@@ -15,14 +17,21 @@ namespace Rocky_Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _db;
-        
-       /* private readonly IMyDependency _myDependency; */    // test DI
+        //private readonly ICategoryRepository _cr;
 
-        public HomeController(ILogger<HomeController> logger, /*IMyDependency myDependency,*/ ApplicationDbContext db)
+        /* private readonly IMyDependency _myDependency; */    // test DI
+
+        public HomeController(
+            ILogger<HomeController> logger,
+            /*IMyDependency myDependency,*/
+            ApplicationDbContext db
+            //ICategoryRepository cr
+            )
         {
             _logger = logger;
             //_myDependency = myDependency;
             _db = db;
+            //_cr = cr;
         }
 
         public IActionResult Index()

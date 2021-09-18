@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Rocky_DataAccess.Repository.IRepository
 {
-    interface ICategoryRepository:IRepository<Category>
+    public interface ICategoryRepository:IRepository<Category>
     {
         void Update(Category obj);
     }

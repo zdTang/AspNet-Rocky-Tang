@@ -10,6 +10,8 @@ using Rocky_DataAccess.Data;
 using Rocky.Examples.DI;
 using Rocky_Utility;
 using System;
+using Rocky_DataAccess.Repository.IRepository;
+using Rocky_DataAccess.Repository;
 
 namespace Rocky
 {
@@ -40,6 +42,10 @@ namespace Rocky
             // Add DbContext
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IApplicationTypeRepository, ApplicationTypeRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             // Added IdentityUser
             // need packages:
