@@ -16,22 +16,24 @@ namespace Rocky_Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _db;
-        //private readonly ICategoryRepository _cr;
+        //private readonly ApplicationDbContext _db;
+        private readonly ICategoryRepository _cr;
+        private readonly IProductRepository _db;
 
         /* private readonly IMyDependency _myDependency; */    // test DI
 
         public HomeController(
             ILogger<HomeController> logger,
             /*IMyDependency myDependency,*/
-            ApplicationDbContext db
-            //ICategoryRepository cr
+            //ApplicationDbContext db
+            IProductRepository db,
+            ICategoryRepository cr
             )
         {
             _logger = logger;
             //_myDependency = myDependency;
             _db = db;
-            //_cr = cr;
+            _cr = cr;
         }
 
         public IActionResult Index()
@@ -47,8 +49,8 @@ namespace Rocky_Controllers
             HomeVM homeVM = new HomeVM()
             {
                 //Category, ApplicationType will be used at _individualProductCard  partial Table
-                Products = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType),
-                Categories = _db.Category
+                Products = _db.GetAll(includeProperties: "Category,ApplicationType"),
+                Categories = _cr.GetAll()
             };
 
             return View(homeVM);
@@ -63,7 +65,8 @@ namespace Rocky_Controllers
 
             var detailsVM = new DetailsVM()
             {
-                Product = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Id == Id).FirstOrDefault(),
+                //Product = _db.Product.Include(u => u.Category).Include(u => u.ApplicationType).Where(u => u.Id == Id).FirstOrDefault(),
+                Product = _db.FirstOrDefault(u => u.Id == Id,includeProperties:"Category,ApplicationType"),
 
                 ExistsInCart = (mySession != null && mySession.Exists(u => u.ProductId == Id)) ? true : false
             };

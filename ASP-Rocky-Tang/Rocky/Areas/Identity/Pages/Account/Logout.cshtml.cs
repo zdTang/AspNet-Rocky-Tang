@@ -20,14 +20,17 @@ namespace Rocky.Areas.Identity.Pages.Account
         {
             _signInManager = signInManager;
             _logger = logger;
+            _logger.LogWarning("Logout--Instantiate");
         }
 
         public void OnGet()
         {
+            _logger.LogWarning("Logout--Get");
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
+            _logger.LogWarning("Logout--Post");
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)

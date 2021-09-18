@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Rocky_DataAccess.Data;
+using Rocky_DataAccess.Repository;
+using Rocky_DataAccess.Repository.IRepository;
 using Rocky_Models;
 using Rocky_Models.ViewModels;
 using Rocky_Utility;
@@ -19,16 +21,29 @@ namespace Rocky.Controllers
     [Authorize]                    //   must login, but not to be necessarily a Admin
     public class CartController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        //private readonly ApplicationDbContext _db;
+        private readonly IProductRepository _productRepo;
+        private readonly IApplicationUserRepository _applicationUserRepo;
+        private readonly IInquiryHeaderRepository _inquiryHeaderRepo;
+        private readonly IInquiryDetailRepository _inquiryDetailRepo;
         private readonly IWebHostEnvironment _en;
         private readonly IEmailSender _es;
 
         [BindProperty]
         public ProductUserVM productUserVM { set; get; }
 
-        public CartController(ApplicationDbContext db, IWebHostEnvironment en, IEmailSender es)
+        public CartController(
+            IProductRepository productRepo,
+            IApplicationUserRepository applicationUserRepo,
+            IInquiryHeaderRepository inquiryHeaderRepo,
+            IInquiryDetailRepository inquiryDetailRepo,
+            IWebHostEnvironment en, 
+            IEmailSender es)
         {
-            _db = db;
+            _productRepo = productRepo;
+            _applicationUserRepo = applicationUserRepo;
+            _inquiryHeaderRepo = inquiryHeaderRepo;
+            _inquiryDetailRepo = inquiryDetailRepo;
             _en = en;
             _es = es;
         }
@@ -48,7 +63,7 @@ namespace Rocky.Controllers
            if(cartItems != null&&cartItems.Count()>0)
             {
                 List<int> prodInCart = cartItems.Select(i => i.ProductId).ToList();           //  get product ID LIST
-                IEnumerable<Product> prodList = _db.Product.Where(u => prodInCart.Contains(u.Id));
+                IEnumerable<Product> prodList = _productRepo.GetAll(u => prodInCart.Contains(u.Id));
                 return View(prodList);
             }
 
@@ -79,11 +94,11 @@ namespace Rocky.Controllers
             if (cartItems != null && cartItems.Count() > 0)
             {
                 List<int> prodInCart = cartItems.Select(i => i.ProductId).ToList();           //  get product ID LIST
-                //IEnumerable<Product> prodList = _db.Product.Where(u => prodInCart.Contains(u.Id));
+    
                 productUserVM = new ProductUserVM()
                 {
-                    ApplicationUser = _db.ApplicationUser.FirstOrDefault(u => u.Id == claim.Value),
-                    ProductList= _db.Product.Where(u => prodInCart.Contains(u.Id)).ToList()
+                    ApplicationUser = _applicationUserRepo.FirstOrDefault(u => u.Id == claim.Value),
+                    ProductList= _productRepo.GetAll(u => prodInCart.Contains(u.Id)).ToList()
                 };
 
                 return View(productUserVM);
@@ -133,6 +148,13 @@ namespace Rocky.Controllers
 
             await _es.SendEmailAsync(WC.EmailRecevier, subject, messageBody);
 
+
+
+
+
+
+
+
             return RedirectToAction(nameof(InquiryConfirmation));
         }
 
@@ -154,7 +176,7 @@ namespace Rocky.Controllers
                 // Tutorial's  option is RedirectToAction(nameof(Index))
                 // But Redirection is not a good approach so that I just return another view
                 List<int> prodInCart = cartItems.Select(i => i.ProductId).ToList();           //  get product ID LIST
-                IEnumerable<Product> prodList = _db.Product.Where(u => prodInCart.Contains(u.Id));
+                IEnumerable<Product> prodList = _productRepo.GetAll(u => prodInCart.Contains(u.Id));
                 return View(nameof(Index),prodList);
             }
 

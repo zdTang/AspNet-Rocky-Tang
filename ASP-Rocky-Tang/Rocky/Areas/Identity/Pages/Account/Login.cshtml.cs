@@ -25,6 +25,7 @@ namespace Rocky.Areas.Identity.Pages.Account
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager)
         {
+            _logger.LogWarning("Login--Instantiate");
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -56,6 +57,9 @@ namespace Rocky.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            _logger.LogWarning("Login--onGetAsync");
+            _logger.LogWarning(User.Identity.Name);
+
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
@@ -73,6 +77,9 @@ namespace Rocky.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            _logger.LogWarning("Login--onPostAsync");
+            _logger.LogWarning(User.Identity.Name);
+
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();

@@ -47,6 +47,10 @@ namespace Rocky
             services.AddScoped<IApplicationTypeRepository, ApplicationTypeRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
 
+            services.AddScoped<IInquiryHeaderRepository, InquiryHeaderRepository>();
+            services.AddScoped<IInquiryDetailRepository, InquiryDetailRepository>();
+            services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+
             // Added IdentityUser
             // need packages:
             // Microsoft.AspNetCore.Identity.EntityFrameworkcore

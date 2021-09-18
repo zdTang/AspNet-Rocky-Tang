@@ -38,6 +38,7 @@ namespace Rocky.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;               // Tang added
+            _logger.LogWarning("Register--Instantiation");
         }
 
         [BindProperty]
@@ -75,8 +76,9 @@ namespace Rocky.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             //Tang Added
-            
-            if(!await _roleManager.RoleExistsAsync(WC.AdminRole))
+            _logger.LogWarning("Register--Get");
+            _logger.LogWarning(User.Identity.Name);
+            if (!await _roleManager.RoleExistsAsync(WC.AdminRole))
             {
                 // Create two roles,  role is just a string !!!! like a label
 
@@ -90,6 +92,8 @@ namespace Rocky.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            _logger.LogWarning("Register--Post");
+            _logger.LogWarning(User.Identity.Name);
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
