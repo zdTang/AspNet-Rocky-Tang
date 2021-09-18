@@ -23,5 +23,7 @@ namespace Rocky_DataAccess.Data
         public DbSet<Article> Article { get; set; }
         public DbSet<ApplicationType> ApplicationType { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }    // ApplicationUser -> IdentityUser 
+        public DbSet<InquiryHeader> InquiryHeader { get; set; }
+        public DbSet<InquiryDetail> InquiryDetail { get; set; }
     }
 }

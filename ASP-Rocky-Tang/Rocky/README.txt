@@ -133,3 +133,9 @@
   # Repository Pattern  vs no Repository
   # Controller --> dbContext ---> Database
   # Controller --> Repository --> DbContext --->Database
+  # Pros and cons  
+  # before, controller depends on Dbcontext, if requirement changes, we need update controllers
+  # Now, we don't need change controller, we change those repositories, while repositories depend on Dbcontext
+
+   Controller ==> DbContext
+   Controller ==> Repositories ===> DbContext
