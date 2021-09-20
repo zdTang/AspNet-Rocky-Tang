@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Rocky_DataAccess.Data;
 using Rocky_DataAccess.Repository;
 using Rocky_DataAccess.Repository.IRepository;
@@ -18,18 +19,24 @@ namespace Rocky.Controllers
 
         //private readonly ApplicationDbContext _db;
         private readonly ICategoryRepository _cr;
+        private readonly ILogger<CategoryController> _logger;
         public CategoryController(
-            //ApplicationDbContext db
-            ICategoryRepository cr
-            )
+            ICategoryRepository cr,
+            ILogger<CategoryController> logger
+             )
         {
             //_db = db;  //  Dependency Injection
             _cr = cr;
+            _logger = logger;
+            _logger.LogWarning("instantiate-- Category Controller");
+            _logger.LogWarning(User?.Identity?.Name);
         }
+    
         
         public IActionResult Index()
         {
-
+            _logger.LogWarning("Category Controller--Index");
+            _logger.LogWarning(User?.Identity?.Name);
             //IEnumerable<Category> objList = _db.Category;     //  Grab a collection from DB
             IEnumerable<Category> objList = _cr.GetAll();     //  Grab a collection from DB
 
@@ -42,8 +49,9 @@ namespace Rocky.Controllers
         // Create a new Category
         public IActionResult Create()
         {
-
-           return View();
+            _logger.LogWarning("Category Controller--create");
+            _logger.LogWarning(User?.Identity?.Name);
+            return View();
 
         }
         // Create a new Category
@@ -51,6 +59,8 @@ namespace Rocky.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category obj)
         {
+            _logger.LogWarning("Category Controller--create--post");
+            _logger.LogWarning(User?.Identity?.Name);
             if (ModelState.IsValid)
             {
                 //_db.Category.Add(obj);
@@ -86,7 +96,10 @@ namespace Rocky.Controllers
         // Create a new Category
         public IActionResult Edit(int? key)
         {
-            if(key==null||key==0)
+            _logger.LogWarning("Category Controller--Edit");
+            _logger.LogWarning(User?.Identity?.Name);
+
+            if (key==null||key==0)
             {
                 return NotFound();
             }
@@ -108,6 +121,9 @@ namespace Rocky.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Category obj)
         {
+            _logger.LogWarning("Category Controller--Edit--post");
+            _logger.LogWarning(User?.Identity?.Name);
+
             if (ModelState.IsValid)
             {
                 //_db.Category.Update(obj);
@@ -143,7 +159,8 @@ namespace Rocky.Controllers
         // Create a new Category
         public IActionResult Delete(int? key)
         {
-
+            _logger.LogWarning("Category Controller--delete");
+            _logger.LogWarning(User?.Identity?.Name);
             if (key == null || key == 0)
             {
                 return NotFound();
@@ -166,9 +183,10 @@ namespace Rocky.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(Category obj)
         {
-
-               // _db.Category.Remove(obj);
-               // _db.SaveChanges();
+            _logger.LogWarning("Category Controller--delete --post");
+            _logger.LogWarning(User?.Identity?.Name);
+            // _db.Category.Remove(obj);
+            // _db.SaveChanges();
 
             _cr.Remove(obj);
             _cr.Save();

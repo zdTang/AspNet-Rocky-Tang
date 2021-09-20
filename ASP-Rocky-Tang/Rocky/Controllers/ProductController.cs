@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Rocky_DataAccess.Data;
 using Rocky_DataAccess.Repository.IRepository;
 using Rocky_Models;
@@ -21,14 +22,19 @@ namespace Rocky.Controllers
     {
 
         //private readonly ApplicationDbContext _db;
+        private readonly ILogger<ProductController> _logger;
         private readonly IProductRepository _db;
         private readonly IWebHostEnvironment _webHostEnvironment;    // see setup.cs, this IWebHostEnvironment is defined by system
 
-        public ProductController(/*ApplicationDbContext*/IProductRepository db, IWebHostEnvironment webHostEnvironment)
+        public ProductController(/*ApplicationDbContext*/IProductRepository db, IWebHostEnvironment webHostEnvironment,ILogger<ProductController> logger)
         {
             _db = db;            //  Dependency Injection
+            _logger = logger;
             _webHostEnvironment = webHostEnvironment;
+            _logger.LogWarning("instantiate-- ProductController");
+            _logger.LogWarning(User?.Identity?.Name);
         }
+    
         
         public IActionResult Index()
         {

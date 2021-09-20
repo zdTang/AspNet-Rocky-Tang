@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Rocky_DataAccess.Data;
 using Rocky_DataAccess.Repository;
 using Rocky_DataAccess.Repository.IRepository;
 using Rocky_Models;
 using Rocky_Models.ViewModels;
 using Rocky_Utility;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,6 +30,8 @@ namespace Rocky.Controllers
         private readonly IInquiryDetailRepository _inquiryDetailRepo;
         private readonly IWebHostEnvironment _en;
         private readonly IEmailSender _es;
+        private readonly ILogger<CartController> _logger;
+
 
         [BindProperty]
         public ProductUserVM productUserVM { set; get; }
@@ -38,7 +42,8 @@ namespace Rocky.Controllers
             IInquiryHeaderRepository inquiryHeaderRepo,
             IInquiryDetailRepository inquiryDetailRepo,
             IWebHostEnvironment en, 
-            IEmailSender es)
+            IEmailSender es,
+            ILogger<CartController> logger)
         {
             _productRepo = productRepo;
             _applicationUserRepo = applicationUserRepo;
@@ -46,18 +51,24 @@ namespace Rocky.Controllers
             _inquiryDetailRepo = inquiryDetailRepo;
             _en = en;
             _es = es;
+            _logger = logger;
+
+            _logger.LogWarning("instantiate-- Cart Controller");
+            _logger.LogWarning(User?.Identity?.Name);
         }
         
         public IActionResult Index()
         {
+            _logger.LogWarning("Cart Controller--Index");
+            _logger.LogWarning(User?.Identity?.Name);
             /*
              Session bind with Request from a browser client.
              Even the client has not register,
              the Session can save information
               
              */
-            
-            
+
+
             //List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();             // create a empty item List
             var cartItems = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
            if(cartItems != null&&cartItems.Count()>0)
@@ -75,6 +86,8 @@ namespace Rocky.Controllers
         [ActionName("Index")]
         public IActionResult IndexPost()
         {
+            _logger.LogWarning("Cart Controller--Index--Post");
+            _logger.LogWarning(User?.Identity?.Name);
             return RedirectToAction(nameof(Summary));
         }
 
@@ -83,7 +96,9 @@ namespace Rocky.Controllers
         public IActionResult Summary()
         {
             // Dealing with Identity
-            
+            _logger.LogWarning("Cart Controller--Summary");
+            _logger.LogWarning(User?.Identity?.Name);
+
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             var userId = User.FindFirstValue(ClaimTypes.Name);
@@ -118,6 +133,19 @@ namespace Rocky.Controllers
 
         public async Task<IActionResult> SummaryPost(ProductUserVM productUserVM)
         {
+        #if DEBUG
+            _logger.LogWarning("Cart Controller--Summary--Post");
+            _logger.LogWarning(User?.Identity?.Name);
+        #endif
+
+            var claimIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+        #if DEBUG
+            _logger.LogInformation("claim==" + claim.Type);
+            _logger.LogInformation("claim==" + claim.Value);
+        #endif
+
             // Dealing with Identity
             var PathToTemplate = _en.WebRootPath + Path.DirectorySeparatorChar.ToString() + "templates" + Path.DirectorySeparatorChar.ToString()+"Inquiry.html";
 
@@ -148,9 +176,32 @@ namespace Rocky.Controllers
 
             await _es.SendEmailAsync(WC.EmailRecevier, subject, messageBody);
 
+            // Add Inquiry stuff
 
+            InquiryHeader inquiryHeader = new InquiryHeader()
+            {
+                ApplicationUserId = claim.Value,
+                FullName = productUserVM.ApplicationUser.FullName,
+                Email = productUserVM.ApplicationUser.Email,
+                PhoneNumber = productUserVM.ApplicationUser.PhoneNumber,
+                InquiryDate = DateTime.Now
+            };
 
+            _inquiryHeaderRepo.Add(inquiryHeader);   // save to Database
+            _inquiryHeaderRepo.Save();
 
+            foreach(var prod in productUserVM.ProductList)
+            {
+                InquiryDetail inquiryDetail = new InquiryDetail()
+                {
+                    InquiryHeaderId = inquiryHeader.Id,     // can this get the ID
+                    ProductId = prod.Id
+                };
+                _inquiryDetailRepo.Add(inquiryDetail);   // save to Database
+          
+            }
+
+            _inquiryDetailRepo.Save();
 
 
 

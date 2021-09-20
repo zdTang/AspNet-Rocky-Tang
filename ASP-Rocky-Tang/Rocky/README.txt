@@ -139,3 +139,6 @@
 
    Controller ==> DbContext
    Controller ==> Repositories ===> DbContext
+
+
+   ## Add inquiry View

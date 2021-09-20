@@ -31,6 +31,7 @@ namespace Rocky.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             _logger.LogWarning("Logout--Post");
+            _logger.LogWarning(User.Identity.Name);
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)

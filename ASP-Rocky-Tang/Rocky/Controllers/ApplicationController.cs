@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Rocky_DataAccess.Data;
 using Rocky_DataAccess.Repository.IRepository;
 using Rocky_Models;
@@ -17,15 +18,22 @@ namespace Rocky.Controllers
 
         //private readonly ApplicationDbContext _db;
         private readonly IApplicationTypeRepository _db;
+        private readonly ILogger<ApplicationController> _logger;
 
-        public ApplicationController(IApplicationTypeRepository db)
-        {
-            _db = db;                                          //  Dependency Injection
+        public ApplicationController(IApplicationTypeRepository db, ILogger<ApplicationController> logger) {
+            _db = db;
+            _logger=logger;
+            //  Dependency Injection
+            _logger.LogWarning("instantiate-- Application  Controller");
+            _logger.LogWarning(User?.Identity?.Name);
         }
+    
         
         public IActionResult Index()
         {
 
+            _logger.LogWarning("iApplication  Controller--Index");
+            _logger.LogWarning(User?.Identity?.Name);
             IEnumerable<ApplicationType> objList = _db.GetAll();     //  Grab a collection from DB
             
 
@@ -39,8 +47,9 @@ namespace Rocky.Controllers
         // Create a new Category
         public IActionResult Create()
         {
-
-           return View();
+            _logger.LogWarning("iApplication  Controller--Create");
+            _logger.LogWarning(User?.Identity?.Name);
+            return View();
 
         }
         // Create a new Category
@@ -48,6 +57,8 @@ namespace Rocky.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(ApplicationType obj)
         {
+            _logger.LogWarning("iApplication  Controller--Create--Post");
+            _logger.LogWarning(User?.Identity?.Name);
             if (ModelState.IsValid)
             {
                 //_db.ApplicationType.Add(obj);
@@ -84,7 +95,11 @@ namespace Rocky.Controllers
         // Create a new Category
         public IActionResult Edit(int? key)
         {
-            if(key==null||key==0)
+            _logger.LogWarning("Application  Controller--EDIT");
+            _logger.LogWarning(User?.Identity?.Name);
+
+
+            if (key==null||key==0)
             {
                 return NotFound();
             }
@@ -106,6 +121,9 @@ namespace Rocky.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(ApplicationType obj)
         {
+            _logger.LogWarning("Application  Controller--EDIT--post");
+            _logger.LogWarning(User?.Identity?.Name);
+
             if (ModelState.IsValid)
             {
                 //_db.ApplicationType.Update(obj);
@@ -142,6 +160,8 @@ namespace Rocky.Controllers
         // Create a new Category
         public IActionResult Delete(int? key)
         {
+            _logger.LogWarning("Application  Controller--Delete");
+            _logger.LogWarning(User?.Identity?.Name);
 
             if (key == null || key == 0)
             {
@@ -167,9 +187,10 @@ namespace Rocky.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(ApplicationType obj)
         {
-
-                //_db.ApplicationType.Remove(obj);
-                //_db.SaveChanges();
+            _logger.LogWarning("Application  Controller--Delete--post");
+            _logger.LogWarning(User?.Identity?.Name);
+            //_db.ApplicationType.Remove(obj);
+            //_db.SaveChanges();
 
             _db.Remove(obj);
             _db.Save();

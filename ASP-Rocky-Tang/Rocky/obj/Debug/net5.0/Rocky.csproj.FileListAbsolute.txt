@@ -998,3 +998,5 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Rocky_M
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Rocky_DataAccess.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Rocky_DataAccess.pdb
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Home\About.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Inquiry\Index.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Inquiry\Details.cshtml.g.cs

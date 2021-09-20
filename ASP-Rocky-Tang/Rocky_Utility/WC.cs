@@ -14,6 +14,7 @@ namespace Rocky_Utility
        
         public const string ImagePath = @"\images\product\";     /**This folder is for containing images*/
         public const string SessionCart = "ShoppingCartSession";
+        public const string SessionInquiryId = "InquiryIdSession";
 
 
         // Add two strings to represent roles

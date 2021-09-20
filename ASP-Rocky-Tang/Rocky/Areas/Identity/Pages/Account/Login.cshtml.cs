@@ -25,10 +25,11 @@ namespace Rocky.Areas.Identity.Pages.Account
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager)
         {
-            _logger.LogWarning("Login--Instantiate");
+            
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _logger.LogWarning("Login--Instantiate");
         }
 
         [BindProperty]
@@ -57,8 +58,10 @@ namespace Rocky.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            #if DEBUG          
             _logger.LogWarning("Login--onGetAsync");
             _logger.LogWarning(User.Identity.Name);
+            #endif
 
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
@@ -77,8 +80,10 @@ namespace Rocky.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            #if DEBUG
             _logger.LogWarning("Login--onPostAsync");
             _logger.LogWarning(User.Identity.Name);
+            #endif
 
             returnUrl ??= Url.Content("~/");
 

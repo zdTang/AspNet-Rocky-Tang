@@ -34,10 +34,16 @@ namespace Rocky_Controllers
             //_myDependency = myDependency;
             _db = db;
             _cr = cr;
+            _logger.LogWarning("instantiate-- HomeController");
+            _logger.LogWarning(User?.Identity?.Name);
         }
+    
 
         public IActionResult Index()
         {
+            _logger.LogWarning("Home  Controller--Index");
+            _logger.LogWarning(User?.Identity?.Name);
+
 
             //  Testing DI
             //_myDependency.WriteMessage("TESTING Dependency Injection !!!");
@@ -60,7 +66,10 @@ namespace Rocky_Controllers
 
         public IActionResult Details(int Id)
         {
-
+        #if DEBUG
+            _logger.LogWarning("Home  Controller--Details");
+            _logger.LogWarning(User?.Identity?.Name);
+        #endif 
             var mySession = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
 
             var detailsVM = new DetailsVM()
@@ -78,6 +87,8 @@ namespace Rocky_Controllers
         [HttpPost,ActionName("Details")]
         public IActionResult DetailsPost(int Id)
         {
+            _logger.LogWarning("Home  Controller--Details--Post");
+            _logger.LogWarning(User?.Identity?.Name);
             /*====
             var mySession = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
             List<ShoppingCart> shoppoingCartList = new List<ShoppingCart>();
