@@ -9,6 +9,10 @@ namespace Rocky_Models
 {
     public class Product
     {
+        public Product()
+        {
+            TempSqFt = 1;    // the default Quantity
+        }
         [Key]
         public int Id { get; set; }
 
@@ -38,6 +42,11 @@ namespace Rocky_Models
         // we can add a CategoryID explicitely and bind it with the virtual Category property
         [ForeignKey("ApplicationId")]
         public virtual ApplicationType ApplicationType { set; get; }
+        
+        [NotMapped]      // will not Migrate to Database
+        [Range(1,10000)]
+        public int TempSqFt { get; set; }     // Not add to the Dabase
+
 
     }
 }

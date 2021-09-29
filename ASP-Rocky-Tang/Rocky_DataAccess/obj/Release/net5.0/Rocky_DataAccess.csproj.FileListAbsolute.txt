@@ -1,0 +1,17 @@
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\bin\Release\net5.0\Rocky_DataAccess.deps.json
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\bin\Release\net5.0\Rocky_DataAccess.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\bin\Release\net5.0\ref\Rocky_DataAccess.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\bin\Release\net5.0\Rocky_DataAccess.pdb
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\bin\Release\net5.0\Rocky_Models.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\bin\Release\net5.0\Rocky_Utility.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\bin\Release\net5.0\Rocky_Models.pdb
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\bin\Release\net5.0\Rocky_Utility.pdb
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Release\net5.0\Rocky_DataAccess.csproj.AssemblyReference.cache
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Release\net5.0\Rocky_DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Release\net5.0\Rocky_DataAccess.AssemblyInfoInputs.cache
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Release\net5.0\Rocky_DataAccess.AssemblyInfo.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Release\net5.0\Rocky_DataAccess.csproj.CoreCompileInputs.cache
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Release\net5.0\Rocky_DataAccess.csproj.CopyComplete
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Release\net5.0\Rocky_DataAccess.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Release\net5.0\ref\Rocky_DataAccess.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_DataAccess\obj\Release\net5.0\Rocky_DataAccess.pdb

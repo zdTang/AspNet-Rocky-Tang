@@ -74,7 +74,7 @@ namespace Rocky.Areas.Identity.Pages.Account
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
+            _logger.LogWarning("Login--onGetAsync==>EXIT");
             ReturnUrl = returnUrl;
         }
 
@@ -114,7 +114,7 @@ namespace Rocky.Areas.Identity.Pages.Account
                     return Page();
                 }
             }
-
+            _logger.LogWarning("Login--onPostAsync==>Login Fail, exit !");
             // If we got this far, something failed, redisplay form
             return Page();
         }

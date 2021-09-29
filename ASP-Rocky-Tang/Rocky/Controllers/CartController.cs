@@ -52,15 +52,20 @@ namespace Rocky.Controllers
             _en = en;
             _es = es;
             _logger = logger;
-
+#if DEBUG
             _logger.LogWarning("instantiate-- Cart Controller");
             _logger.LogWarning(User?.Identity?.Name);
+#endif
+
         }
         
         public IActionResult Index()
         {
+#if DEBUG
             _logger.LogWarning("Cart Controller--Index");
             _logger.LogWarning(User?.Identity?.Name);
+#endif
+
             /*
              Session bind with Request from a browser client.
              Even the client has not register,
@@ -70,13 +75,36 @@ namespace Rocky.Controllers
 
 
             //List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();             // create a empty item List
-            var cartItems = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
-           if(cartItems != null&&cartItems.Count()>0)
+            var shoppingCartList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
+           
+            if(shoppingCartList != null&&shoppingCartList.Count()>0)
             {
-                List<int> prodInCart = cartItems.Select(i => i.ProductId).ToList();           //  get product ID LIST
-                IEnumerable<Product> prodList = _productRepo.GetAll(u => prodInCart.Contains(u.Id));
+
+
+
+               // I don't follow his code, just use mine
+
+                IList<Product> prodList = new List<Product>();
+
+                foreach (var cartObj in shoppingCartList)
+                {
+                    Product prodTemp = _productRepo.FirstOrDefault(u => u.Id == cartObj.ProductId);
+                    prodTemp.TempSqFt = cartObj.SqFt;
+                    prodList.Add(prodTemp);
+                }
+
+
+#if DEBUG
+                _logger.LogWarning("Controllor:Cart  Action: Index ==> /cart/index view");
+#endif
+
+
+
                 return View(prodList);
             }
+#if DEBUG
+            _logger.LogWarning("Controllor:Cart  Action: Index ==> home/index view");
+#endif
 
             return View("home/index");
         }
@@ -84,25 +112,116 @@ namespace Rocky.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Index")]
-        public IActionResult IndexPost()
+        public IActionResult IndexPost(IList<Product> ProdList)
         {
+#if DEBUG
             _logger.LogWarning("Cart Controller--Index--Post");
             _logger.LogWarning(User?.Identity?.Name);
+#endif
+
+
+
+
+            List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();
+            foreach (Product prod in ProdList)
+            {
+                shoppingCartList.Add(new ShoppingCart { ProductId = prod.Id, SqFt = prod.TempSqFt });
+            }
+
+            HttpContext.Session.Set(WC.SessionCart, shoppingCartList);
+
+#if DEBUG
+            _logger.LogWarning(" R==> Action: Cart/Summary ");
+#endif
+
+
             return RedirectToAction(nameof(Summary));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
 
+        public IActionResult UpdateCart(IList<Product> ProdList)
+        {
+#if DEBUG
+            _logger.LogWarning("Cart Controller--UpdateCart--Post");
+            _logger.LogWarning(User?.Identity?.Name);
+#endif
+
+
+            List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();
+            foreach(Product prod in ProdList)
+            {
+                shoppingCartList.Add(new ShoppingCart { ProductId = prod.Id, SqFt = prod.TempSqFt });
+            }
+
+            HttpContext.Session.Set(WC.SessionCart, shoppingCartList);
+#if DEBUG
+            _logger.LogWarning(" R==> Action: Cart/Index ");
+#endif
+
+            return RedirectToAction(nameof(Index));
+        }
 
         public IActionResult Summary()
         {
+
+            /*
+             Three scenarios here !
+             1. user login and deal with their order
+            2. admin login and deal with order for customer visit shop(need show blank for input info by the admin)
+            3. admin login and deal with inquiry order (need display customer information)
+             
+             */
+
+
+
+
+
             // Dealing with Identity
+#if DEBUG
             _logger.LogWarning("Cart Controller--Summary");
             _logger.LogWarning(User?.Identity?.Name);
+#endif
 
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            var userId = User.FindFirstValue(ClaimTypes.Name);
 
+
+
+            ApplicationUser applicationUser;
+
+            // Here, the Administrator will manage the order, so the customer's name need to be populated 
+            // other than the Administrator's own information
+
+            if (User.IsInRole(WC.AdminRole))
+            {
+                var _IdInSession = HttpContext.Session.Get<int>(WC.SessionInquiryId);
+                if (_IdInSession != 0)
+                {
+                    //cart has been loaded using an inquiry
+                    InquiryHeader inquiryHeader = _inquiryHeaderRepo.FirstOrDefault(u => u.Id == _IdInSession);
+
+                    applicationUser = new ApplicationUser { 
+                    Email=inquiryHeader.Email,
+                    FullName=inquiryHeader.FullName,
+                    PhoneNumber=inquiryHeader.PhoneNumber
+                    };
+                }
+                else   // Manager place order for user who visit the shop
+                {
+                    applicationUser = new ApplicationUser();
+                }
+            }
+
+            else
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                //var userId = User.FindFirstValue(ClaimTypes.Name);
+                applicationUser = _applicationUserRepo.FirstOrDefault(u => u.Id == claim.Value);
+            }
+
+            
+            
             // Dealing with shopping cart
 
             var cartItems = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
@@ -112,16 +231,34 @@ namespace Rocky.Controllers
     
                 productUserVM = new ProductUserVM()
                 {
-                    ApplicationUser = _applicationUserRepo.FirstOrDefault(u => u.Id == claim.Value),
-                    ProductList= _productRepo.GetAll(u => prodInCart.Contains(u.Id)).ToList()
+                    //ApplicationUser = _applicationUserRepo.FirstOrDefault(u => u.Id == claim.Value),
+                    ApplicationUser = applicationUser,
+                    /*This productList locks information of SqFt*/
+                    //ProductList = _productRepo.GetAll(u => prodInCart.Contains(u.Id)).ToList()
                 };
+                //  Here to add SqFt Information which is in the Session
+                foreach(var cartObj in cartItems)
+                {
+                    Product productTemp = _productRepo.FirstOrDefault(u => u.Id == cartObj.ProductId);
+                    productTemp.TempSqFt = cartObj.SqFt;
+                    productUserVM.ProductList.Add(productTemp);
+                }
+
+#if DEBUG
+                _logger.LogWarning("==> View: Cart/Summary ");
+#endif
 
                 return View(productUserVM);
             }
 
             else  // is this possible?
             {
+#if DEBUG
+                _logger.LogWarning("==> View: Cart/Index ");
+#endif
+
                 return View("home/index");
+               
             }
 
             
@@ -203,7 +340,9 @@ namespace Rocky.Controllers
 
             _inquiryDetailRepo.Save();
 
-
+#if DEBUG
+            _logger.LogWarning("==> Action: Cart/InquiryConfirmation");
+#endif
 
 
             return RedirectToAction(nameof(InquiryConfirmation));
@@ -211,12 +350,26 @@ namespace Rocky.Controllers
 
         public IActionResult InquiryConfirmation()
         {
+#if DEBUG
+            _logger.LogWarning("Cart Controller--Cart--InquiryConfirmation");
+            _logger.LogWarning(User?.Identity?.Name);
+#endif
+
             HttpContext.Session.Clear();
+#if DEBUG
+            _logger.LogWarning("==> view: Cart/InquiryConfirmation");
+#endif
+
             return View();
         }
 
         public IActionResult Remove(int Id)
         {
+#if DEBUG
+            _logger.LogWarning("Cart Controller--Cart--Remove");
+            _logger.LogWarning(User?.Identity?.Name);
+#endif
+
             //List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();             // create a empty item List
             var cartItems = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
             if (cartItems != null && cartItems.Count() > 0)
@@ -228,8 +381,16 @@ namespace Rocky.Controllers
                 // But Redirection is not a good approach so that I just return another view
                 List<int> prodInCart = cartItems.Select(i => i.ProductId).ToList();           //  get product ID LIST
                 IEnumerable<Product> prodList = _productRepo.GetAll(u => prodInCart.Contains(u.Id));
+                TempData[WC.Success] = "Item Type has been removed successfully!";
+#if DEBUG
+                _logger.LogWarning("==> view: Cart/Index");
+#endif
+
                 return View(nameof(Index),prodList);
             }
+#if DEBUG
+            _logger.LogWarning("==> view: home/Index");
+#endif
 
             return View("home/index");
         }

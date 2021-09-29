@@ -30,8 +30,11 @@ namespace Rocky.Controllers
                 _logger=logger;
                 _inquiryDetailRepo = inquiryDetailRepo;
                 _inquiryHeaderRepo = inquiryHeaderRepo;
-                _logger.LogWarning("instantiate-- Inquiry  Controller");
-            }
+#if DEBUG
+            _logger.LogWarning("instantiate-- Inquiry  Controller");
+#endif
+
+        }
 
         public IActionResult Index()
         {
@@ -39,6 +42,7 @@ namespace Rocky.Controllers
             _logger.LogWarning("Inquiry  Controller-- Index");
             _logger.LogWarning(User?.Identity?.Name);
 #endif
+            _logger.LogWarning(" ==> view:Inquiry/Index");
             return View();
         }
 
@@ -55,8 +59,10 @@ namespace Rocky.Controllers
                 InquiryHeader = _inquiryHeaderRepo.FirstOrDefault(u=>u.Id==id),
                 InquiryDetails = _inquiryDetailRepo.GetAll(u => u.InquiryHeaderId == id,includeProperties:"Product")
             };
-            
-            
+#if DEBUG
+            _logger.LogWarning(" ==> view:Inquiry/Details(InquiryVM)");
+#endif
+
             return View(InquiryVM);
         }
 
@@ -86,6 +92,9 @@ namespace Rocky.Controllers
             HttpContext.Session.Clear();
             HttpContext.Session.Set(WC.SessionCart, shoppingCartList);
             HttpContext.Session.Set(WC.SessionInquiryId, InquiryVM.InquiryHeader.Id);
+#if DEBUG
+            _logger.LogWarning(" R ==> Action:Cart/Index");
+#endif
 
             return RedirectToAction("index", "Cart");
         }
@@ -109,6 +118,10 @@ namespace Rocky.Controllers
 
             _inquiryHeaderRepo.Save();
 
+            TempData[WC.Success] = "Successfully!";
+#if DEBUG
+            _logger.LogWarning("  R ==> Action:Inquiry/index");
+#endif
 
 
             return RedirectToAction(nameof(Index));

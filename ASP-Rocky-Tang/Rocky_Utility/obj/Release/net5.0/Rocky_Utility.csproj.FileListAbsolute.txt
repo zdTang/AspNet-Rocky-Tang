@@ -1,0 +1,11 @@
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\bin\Release\net5.0\Rocky_Utility.deps.json
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\bin\Release\net5.0\Rocky_Utility.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\bin\Release\net5.0\ref\Rocky_Utility.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\bin\Release\net5.0\Rocky_Utility.pdb
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\obj\Release\net5.0\Rocky_Utility.GeneratedMSBuildEditorConfig.editorconfig
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\obj\Release\net5.0\Rocky_Utility.AssemblyInfoInputs.cache
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\obj\Release\net5.0\Rocky_Utility.AssemblyInfo.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\obj\Release\net5.0\Rocky_Utility.csproj.CoreCompileInputs.cache
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\obj\Release\net5.0\Rocky_Utility.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\obj\Release\net5.0\ref\Rocky_Utility.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\obj\Release\net5.0\Rocky_Utility.pdb

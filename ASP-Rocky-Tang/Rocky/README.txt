@@ -142,3 +142,17 @@
 
 
    ## Add inquiry View
+
+   ## Use toastr library to show notifications
+   https://codeseven.github.io/toastr/
+   ## Tips :    css and js files must be put in the partial view Javascript section
+
+
+   #  Understand some fields in the model can be not mapping to database table
+
+   ##  QUESTION: If a category has been used ,  what if I want to delete it?  Foreign key conflict will happen, how to prevent this ?
+
+
+   ##  Validation:  
+       for some fields, such as Email name we hieriated from Identity class, We cannot add [Required] to validate it
+       but we can add "required" on the cshtml file

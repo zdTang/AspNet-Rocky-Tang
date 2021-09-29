@@ -31,13 +31,22 @@ namespace Rocky.Controllers
             _db = db;            //  Dependency Injection
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;
+#if DEBUG
             _logger.LogWarning("instantiate-- ProductController");
             _logger.LogWarning(User?.Identity?.Name);
+#endif
         }
     
         
         public IActionResult Index()
         {
+#if DEBUG
+            _logger.LogWarning("ProductController/index");
+            _logger.LogWarning(User?.Identity?.Name);
+#endif
+
+
+
             // grab the only product to display
             // IEnumerable<Product> objList = _db.Product;     //  Grab a collection from DB
 
@@ -54,6 +63,9 @@ namespace Rocky.Controllers
             }        
             =========================*/
 
+#if DEBUG
+            _logger.LogWarning(" ==> view:Product/Index(objList)");
+#endif
 
             return View(objList);
             //var content = new ContentResult();
@@ -64,6 +76,12 @@ namespace Rocky.Controllers
         // Create a new Category
         public IActionResult Upsert(int? Key)
         {
+#if DEBUG
+            _logger.LogWarning("ProductController/Upsert");
+            _logger.LogWarning(User?.Identity?.Name);
+#endif
+
+
             /* Approach one === Use ViewBag, ViewData, TempData to pass model
              * Which is loosely typed view
              * 
@@ -103,6 +121,10 @@ namespace Rocky.Controllers
             // It is just GET request without any variable
             if (Key == null)
             {
+#if DEBUG
+                _logger.LogWarning(" ==> view:Product/upSert(productVM)");
+#endif
+
                 return View(productVM);                      //  Return a empty content to the update View
             }
             else
@@ -118,6 +140,10 @@ namespace Rocky.Controllers
                 else
                 {
                     //return View(productVM.Product);         //  Return ID's content to the update View
+#if DEBUG
+                    _logger.LogWarning(" ==> view:Product/upSert(productVM)");
+#endif
+
                     return View(productVM);
                 }
             }
@@ -128,6 +154,12 @@ namespace Rocky.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Upsert(ProductVM productVM)
         {
+#if DEBUG
+            _logger.LogWarning("ProductController/Upsert-Post");
+            _logger.LogWarning(User?.Identity?.Name);
+#endif
+        
+
             if (ModelState.IsValid)
             {
                 
@@ -189,6 +221,11 @@ namespace Rocky.Controllers
                     
                 }
                 _db.Save();
+                TempData[WC.Success] = "Successfully!";
+#if DEBUG
+                _logger.LogWarning(" R ==> Action:Product/Index");
+#endif
+
                 return RedirectToAction("index");
             }
             else
@@ -197,6 +234,11 @@ namespace Rocky.Controllers
                 // so that we must make the viewModel have complete data
                 productVM.CategorySelectList = _db.GetAllDropdownList(WC.CategoryName);
                 productVM.ApplicationTypeSelectList = _db.GetAllDropdownList(WC.ApplicationTypeName);
+                TempData[WC.Error] = "Not Success!";
+#if DEBUG
+                _logger.LogWarning(" ==> view:Product/upSert(productVM)");
+#endif
+
                 return View(productVM);
             }
             
@@ -261,6 +303,11 @@ namespace Rocky.Controllers
 
         public IActionResult Delete(int? key)
         {
+#if DEBUG
+            _logger.LogWarning("ProductController/Delete");
+            _logger.LogWarning(User?.Identity?.Name);
+#endif
+
 
             if (key == null || key == 0)
             {
@@ -275,6 +322,10 @@ namespace Rocky.Controllers
                 return NotFound();
             }
             // pass this specified object to View
+#if DEBUG
+            _logger.LogWarning(" ==> view:Product/Delete");
+#endif
+
             return View(obj);
 
 
@@ -286,6 +337,11 @@ namespace Rocky.Controllers
         public IActionResult Delete(Product obj)
         {
             // Delete image file from the Server
+#if DEBUG
+            _logger.LogWarning("ProductController/Delete-POST");
+            _logger.LogWarning(User?.Identity?.Name);
+#endif
+
 
             var ImageName = _db.FirstOrDefault(u => u.Id == obj.Id,isTracking:false).Image;
             
@@ -312,7 +368,11 @@ namespace Rocky.Controllers
 
             _db.Remove(obj);
             _db.Save();
-                
+            TempData[WC.Success] = "Successfully!";
+#if DEBUG
+            _logger.LogWarning(" R==> Action:Product/Index");
+#endif
+
             return RedirectToAction("index");
 
 

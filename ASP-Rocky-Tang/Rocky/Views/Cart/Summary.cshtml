@@ -1,4 +1,5 @@
 ﻿@model Rocky_Models.ViewModels.ProductUserVM
+@using Rocky_Utility
 @{
     ViewData["Title"] = "Summary";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -46,22 +47,74 @@
                                     </div>
                                     <div class="col-9">
                                         @*<input type="text" value="@Model.ApplicationUser.PhoneNumber" class="form-control" />*@
-                                        <input type="text" asp-for="ApplicationUser.PhoneNumber" class="form-control" />
+                                        <input type="text" asp-for="ApplicationUser.PhoneNumber" required class="form-control" />
                                         <span asp-validation-for="ApplicationUser.PhoneNumber" class="text-danger"></span>
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
+
                                 <div class="row my-1">
                                     <div class="col-3">
                                         <label>Email</label>
                                     </div>
                                     <div class="col-9">
-                                        @*<input type="text" value="@Model.ApplicationUser.Email" class="form-control" />*@
-                                        <input type="text" asp-for="ApplicationUser.Email" class="form-control" />
+                                        @*Email field is defined by the Identity package, we cannot have way to add [Required] to 
+                                            the model, so that we can add here !!!!*@
+                                        <input type="text" asp-for="ApplicationUser.Email"  required class="form-control" />
                                         <span asp-validation-for="ApplicationUser.Email" class="text-danger"></span>
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
+
+                                @if (User.IsInRole(WC.AdminRole))
+                                {
+
+                                    <div class="row my-1">
+                                        <div class="col-3">
+                                            <label>Street Address</label>
+                                        </div>
+                                        <div class="col-9">
+                                            @*<input type="text" value="@Model.ApplicationUser.Email" class="form-control" />*@
+                                            <input type="text" asp-for="ApplicationUser.StreetAddress" class="form-control" />
+                                            <span asp-validation-for="ApplicationUser.StreetAddress" class="text-danger"></span>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col-3">
+                                            <label>City</label>
+                                        </div>
+                                        <div class="col-9">
+                                            @*<input type="text" value="@Model.ApplicationUser.Email" class="form-control" />*@
+                                            <input type="text" asp-for="ApplicationUser.City" class="form-control" />
+                                            <span asp-validation-for="ApplicationUser.City" class="text-danger"></span>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col-3">
+                                            <label>State</label>
+                                        </div>
+                                        <div class="col-9">
+                                            @*<input type="text" value="@Model.ApplicationUser.Email" class="form-control" />*@
+                                            <input type="text" asp-for="ApplicationUser.State" class="form-control" />
+                                            <span asp-validation-for="ApplicationUser.State" class="text-danger"></span>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row my-1">
+                                        <div class="col-3">
+                                            <label>PostalCode</label>
+                                        </div>
+                                        <div class="col-9">
+                                            @*<input type="text" value="@Model.ApplicationUser.Email" class="form-control" />*@
+                                            <input type="text" asp-for="ApplicationUser.PostalCode" class="form-control" />
+                                            <span asp-validation-for="ApplicationUser.PostalCode" class="text-danger"></span>
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                             <div class="col-12 col-lg-5 row">
                                 <div class="col-12">
@@ -71,18 +124,43 @@
                                     <ul class="list-group mb-3">
                                         @*foreach vs for*@
                                         @*use FOR other than FOREACH
-                                        only Id and Name will exist in Product object and send back*@
-                                        @for (var i=0;i<Model.ProductList.Count();i++)
+        only Id and Name will exist in Product object and send back*@
+                                        @{ var orderTotal = 0.0;}
+                                        @for (var i = 0; i < Model.ProductList.Count(); i++)
                                         {
                                             <input type="hidden" asp-for="ProductList[i].Id" />
                                             <input type="hidden" asp-for="ProductList[i].Name" />
                                             <li class="list-group-item d-flex justify-content-between">
                                                 <div>
                                                     <h6 class="my-0">@Model.ProductList[i].Name</h6>
-                                                    <small class="text-muted">Price per Sqft:@Model.ProductList[i].Price</small>
+                                                    @if (User.IsInRole(WC.AdminRole))
+                                                    {
+                                                        <small class="text-muted">Sqft: @Model.ProductList[i].TempSqFt</small>
+                                                    }
+                                                    else
+                                                    {
+                                                        <small class="text-muted">Price per Sqft:@Model.ProductList[i].Price</small>
+                                                    }
+
                                                 </div>
+                                                @if (User.IsInRole(WC.AdminRole))
+                                                {
+                                                    <span class="text-muted">$@(Model.ProductList[i].Price * Model.ProductList[i].TempSqFt)</span>
+                                                }
+
+
                                             </li>
+                                            orderTotal += Model.ProductList[i].Price * Model.ProductList[i].TempSqFt;
                                         }
+                                        @if (User.IsInRole(WC.AdminRole))
+                                        {
+                                    <li class="list-group-item d-flex justify-content-between bg-light">
+                                        <small class="text-info">Total(USD) </small>
+                                        <strong class="text-info">$@orderTotal </strong>
+                                    </li>
+
+                                        }
+
 
                                     </ul>
                                 </div>
@@ -93,7 +171,15 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-12 col-md-5 offset-md-7">
-                            <button type="submit" class="btn btn-primary form-control">Submit Inquiry</button>
+                            @if (User.IsInRole(WC.AdminRole))
+                            {
+                               <button type="submit" class="btn btn-primary form-control">Submit Inquiry</button>
+                             }
+                             else
+                             {
+                               <button class="btn btn-success form-control" id="submit-button">Submit Order</button>
+                              }
+                            
                         </div>
                     </div>
                 </div>
