@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Rbi8vqUlgu6PHtnpeLUVaIepWSerWnGMFPuLoJ/fwx8xuRIyzs9aKS+VnIB38ktHa1g+aA4KJpZ/GQQ29M3sRw==",
+  "dgSpecHash": "m9lO2wVQjFUiwa2q6mzi12T+TkSHY6v//NsXwJr68a7DUaX/YpyXWiUnlBnDrhk8Cjv6H9g8X6cp+pyTddv+4w==",
   "success": true,
   "projectFilePath": "D:\\AspDotNetCore\\AspNet-Rocky-Tang\\ASP-Rocky-Tang\\Rocky\\Rocky.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\micha\\.nuget\\packages\\braintree\\5.9.0\\braintree.5.9.0.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\mailjet.api\\1.2.2\\mailjet.api.1.2.2.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\microsoft.aspnetcore.antiforgery\\2.2.0\\microsoft.aspnetcore.antiforgery.2.2.0.nupkg.sha512",
@@ -205,7 +206,9 @@
     "C:\\Users\\micha\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\micha\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    "C:\\Users\\micha\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\micha\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
+    "C:\\Users\\micha\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512"
   ],
   "logs": []
 }

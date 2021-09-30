@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "opJsvN7ODzQjDjFYWzUXHiHaC8TaevGVzmByQjGa7b6tGYdn/cDgu4fHTpZDfkacA8w8D7YOex/zSYEJPwwNZw==",
+  "dgSpecHash": "3Fch/fuu0Guwi0uwZR4bEOPtJuLlmZpYql5lCEHckdXxXFDWqrKZPsM15kw7Qj6IP1GWiEXzVsH0smHbOcKsXA==",
   "success": true,
   "projectFilePath": "D:\\AspDotNetCore\\AspNet-Rocky-Tang\\ASP-Rocky-Tang\\Rocky.Test\\Rocky.Test.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\micha\\.nuget\\packages\\braintree\\5.9.0\\braintree.5.9.0.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\coverlet.collector\\3.0.2\\coverlet.collector.3.0.2.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\humanizer.core\\2.2.0\\humanizer.core.2.2.0.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\mailjet.api\\1.2.2\\mailjet.api.1.2.2.nupkg.sha512",
@@ -210,6 +211,8 @@
     "C:\\Users\\micha\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\micha\\.nuget\\packages\\system.xml.xpath\\4.3.0\\system.xml.xpath.4.3.0.nupkg.sha512",
+    "C:\\Users\\micha\\.nuget\\packages\\system.xml.xpath.xmldocument\\4.3.0\\system.xml.xpath.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\xunit\\2.4.1\\xunit.2.4.1.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\xunit.abstractions\\2.0.3\\xunit.abstractions.2.0.3.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\xunit.analyzers\\0.10.0\\xunit.analyzers.0.10.0.nupkg.sha512",
