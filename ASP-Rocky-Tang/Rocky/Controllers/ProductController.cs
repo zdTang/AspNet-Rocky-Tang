@@ -33,7 +33,7 @@ namespace Rocky.Controllers
             _webHostEnvironment = webHostEnvironment;
 #if DEBUG
             _logger.LogWarning("instantiate-- ProductController");
-            _logger.LogWarning(User?.Identity?.Name);
+
 #endif
         }
     

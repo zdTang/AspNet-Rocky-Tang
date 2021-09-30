@@ -26,7 +26,6 @@ namespace Rocky.Controllers
             //  Dependency Injection
 #if DEBUG
             _logger.LogWarning("instantiate-- Application  Controller");
-            _logger.LogWarning(User?.Identity?.Name);
 #endif
 
         }
@@ -57,10 +56,11 @@ namespace Rocky.Controllers
 #if DEBUG
             _logger.LogWarning("iApplication  Controller--Create");
             _logger.LogWarning(User?.Identity?.Name);
+            _logger.LogWarning(" ==> view:Application/Create");
 #endif
 
 
-            _logger.LogWarning(" ==> view:Application/Create");
+
             return View();
 
         }

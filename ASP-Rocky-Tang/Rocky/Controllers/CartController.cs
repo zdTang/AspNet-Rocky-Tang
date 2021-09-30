@@ -28,6 +28,8 @@ namespace Rocky.Controllers
         private readonly IApplicationUserRepository _applicationUserRepo;
         private readonly IInquiryHeaderRepository _inquiryHeaderRepo;
         private readonly IInquiryDetailRepository _inquiryDetailRepo;
+        private readonly IOrderHeaderRepository _orderHeaderRepo;
+        private readonly IOrderDetailRepository _orderDetailRepo;
         private readonly IWebHostEnvironment _en;
         private readonly IEmailSender _es;
         private readonly ILogger<CartController> _logger;
@@ -41,6 +43,8 @@ namespace Rocky.Controllers
             IApplicationUserRepository applicationUserRepo,
             IInquiryHeaderRepository inquiryHeaderRepo,
             IInquiryDetailRepository inquiryDetailRepo,
+            IOrderHeaderRepository orderHeaderRepo,
+            IOrderDetailRepository orderDetailRepo,
             IWebHostEnvironment en, 
             IEmailSender es,
             ILogger<CartController> logger)
@@ -49,12 +53,14 @@ namespace Rocky.Controllers
             _applicationUserRepo = applicationUserRepo;
             _inquiryHeaderRepo = inquiryHeaderRepo;
             _inquiryDetailRepo = inquiryDetailRepo;
+            _orderHeaderRepo = orderHeaderRepo;
+            _orderDetailRepo = orderDetailRepo;
             _en = en;
             _es = es;
             _logger = logger;
 #if DEBUG
             _logger.LogWarning("instantiate-- Cart Controller");
-            _logger.LogWarning(User?.Identity?.Name);
+
 #endif
 
         }
@@ -109,6 +115,15 @@ namespace Rocky.Controllers
             return View("home/index");
         }
 
+
+        /// <summary>
+        /// Once use click "Continue"
+        /// At this moment, Admin could update the quantity
+        /// Here to push the Quantity into the Session as well
+        /// </summary>
+        /// <param name="ProdList"></param>
+        /// <returns></returns>
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Index")]
@@ -128,6 +143,7 @@ namespace Rocky.Controllers
                 shoppingCartList.Add(new ShoppingCart { ProductId = prod.Id, SqFt = prod.TempSqFt });
             }
 
+            // Before, the sessionCart has only ID, Now, it has been updated with the ID and Quantity, which was updated by Admin
             HttpContext.Session.Set(WC.SessionCart, shoppingCartList);
 
 #if DEBUG
@@ -137,6 +153,15 @@ namespace Rocky.Controllers
 
             return RedirectToAction(nameof(Summary));
         }
+
+
+        /// <summary>
+        /// User click "Update Cart"
+        /// Update Session CartList with new item Quantity
+        /// The Inquiry ID should be in the Session
+        /// </summary>
+        /// <param name="ProdList"></param>
+        /// <returns></returns>
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -162,6 +187,11 @@ namespace Rocky.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        /// <summary>
+        /// Once use click "Continue" 
+        /// Redirect from IndexPost to here
+        /// </summary>
+        /// <returns></returns>
 
         public IActionResult Summary()
         {
@@ -263,7 +293,13 @@ namespace Rocky.Controllers
 
             
         }
-
+        /// <summary>
+        ///  Once User click " Submit Order "
+        ///  If user is admin, then he will push the order into Database
+        ///  If user is normal user, he will send a Email to the Store
+        /// </summary>
+        /// <param name="productUserVM"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Summary")]
@@ -281,86 +317,183 @@ namespace Rocky.Controllers
         #if DEBUG
             _logger.LogInformation("claim==" + claim.Type);
             _logger.LogInformation("claim==" + claim.Value);
-        #endif
-
-            // Dealing with Identity
-            var PathToTemplate = _en.WebRootPath + Path.DirectorySeparatorChar.ToString() + "templates" + Path.DirectorySeparatorChar.ToString()+"Inquiry.html";
-
-
-
-
-           
-
-            var subject = "New Inquiry";
-            string HtmlBody = "";
-
-            using(StreamReader sr = System.IO.File.OpenText(PathToTemplate))
-            {
-                HtmlBody = sr.ReadToEnd();
-            }
-
-            StringBuilder productListSB = new StringBuilder();
-            foreach(var prod in productUserVM.ProductList)
-            {
-                productListSB.Append($" - Name: {prod.Name} <span style='font-size:14px;'>(Id:{prod.Id})</span><br />");
-            }
-
-            string messageBody = string.Format(HtmlBody,
-                productUserVM.ApplicationUser.FullName,
-                productUserVM.ApplicationUser.Email,
-                productUserVM.ApplicationUser.PhoneNumber,
-                productListSB.ToString());
-
-            await _es.SendEmailAsync(WC.EmailRecevier, subject, messageBody);
-
-            // Add Inquiry stuff
-
-            InquiryHeader inquiryHeader = new InquiryHeader()
-            {
-                ApplicationUserId = claim.Value,
-                FullName = productUserVM.ApplicationUser.FullName,
-                Email = productUserVM.ApplicationUser.Email,
-                PhoneNumber = productUserVM.ApplicationUser.PhoneNumber,
-                InquiryDate = DateTime.Now
-            };
-
-            _inquiryHeaderRepo.Add(inquiryHeader);   // save to Database
-            _inquiryHeaderRepo.Save();
-
-            foreach(var prod in productUserVM.ProductList)
-            {
-                InquiryDetail inquiryDetail = new InquiryDetail()
-                {
-                    InquiryHeaderId = inquiryHeader.Id,     // can this get the ID
-                    ProductId = prod.Id
-                };
-                _inquiryDetailRepo.Add(inquiryDetail);   // save to Database
-          
-            }
-
-            _inquiryDetailRepo.Save();
-
-#if DEBUG
-            _logger.LogWarning("==> Action: Cart/InquiryConfirmation");
 #endif
 
 
-            return RedirectToAction(nameof(InquiryConfirmation));
+            if (User.IsInRole(WC.AdminRole))
+            {
+                // send order to Database
+                var orderTotal = 0.0;
+                foreach(Product prod in productUserVM.ProductList)
+                {
+                    orderTotal += prod.TempSqFt;
+                }
+
+                // Order Header
+
+                OrderHeader orderHeader = new OrderHeader
+                {
+                    CreatedByUserId = claim.Value,
+                    FinalOrderTotal = orderTotal,
+                    City = productUserVM.ApplicationUser.City,
+                    StreetAddress = productUserVM.ApplicationUser.StreetAddress,
+                    State = productUserVM.ApplicationUser.State,
+                    PostalCode = productUserVM.ApplicationUser.PostalCode,
+                    FullName = productUserVM.ApplicationUser.FullName,
+                    Email = productUserVM.ApplicationUser.Email,
+                    PhoneNumber = productUserVM.ApplicationUser.PhoneNumber,
+                    OrderDate = DateTime.Now,
+                    OrderStatus = WC.StatusPending
+                };
+
+                _orderHeaderRepo.Add(orderHeader);
+                _orderHeaderRepo.Save();
+
+                //  order Detail
+
+                foreach (var prod in productUserVM.ProductList)
+                {
+                    OrderDetail orderDetail = new OrderDetail()
+                    {
+                        OrderHeaderId= orderHeader.Id,  //  we don't need care about this ID
+                        PricePerSqFt=prod.Price,
+                        Sqft=prod.TempSqFt,
+                        ProductId=prod.Id
+                    };
+                    _orderDetailRepo.Add(orderDetail);   // save to Database
+                }
+                _orderDetailRepo.Save();
+
+#if DEBUG
+                _logger.LogWarning(" Push order to DB, then  R==> Action: Cart/InquiryConfirmation");
+#endif
+
+                // Need an action to delete or mark those inquiries which have been processed !!!
+
+                #region Delete inquiryID which has been processed
+
+                var _IdInSession = HttpContext.Session.Get<int>(WC.SessionInquiryId);
+                if (_IdInSession != 0)
+                {
+                    //cart has been loaded using an inquiry
+                    InquiryHeader inquiryHeader = _inquiryHeaderRepo.FirstOrDefault(u => u.Id == _IdInSession);
+
+
+                    IEnumerable<InquiryDetail> inquiryDetails = _inquiryDetailRepo.GetAll(u => u.InquiryHeaderId == _IdInSession);
+
+
+                    _inquiryDetailRepo.RemoveRange(inquiryDetails);     //  Need use Loop to remove all inquiry detail
+                    _inquiryHeaderRepo.Remove(inquiryHeader);
+
+                    _inquiryHeaderRepo.Save();
+
+                    TempData[WC.Success] = $"Inquiry No.{_IdInSession} has been processed successfully! and remove it now!";
+
+                }
+
+                #endregion
+
+
+
+
+
+
+                return RedirectToAction(nameof(InquiryConfirmation),new {id=orderHeader.Id}); //??
+
+            }
+            else
+            {
+                // create an Inquiry
+                // Dealing with Identity
+                var PathToTemplate = _en.WebRootPath + Path.DirectorySeparatorChar.ToString() + "templates" + Path.DirectorySeparatorChar.ToString() + "Inquiry.html";
+
+                var subject = "New Inquiry";
+                string HtmlBody = "";
+
+                using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
+                {
+                    HtmlBody = sr.ReadToEnd();
+                }
+
+                StringBuilder productListSB = new StringBuilder();
+                foreach (var prod in productUserVM.ProductList)
+                {
+                    productListSB.Append($" - Name: {prod.Name} <span style='font-size:14px;'>(Id:{prod.Id})</span><br />");
+                }
+
+                string messageBody = string.Format(HtmlBody,
+                    productUserVM.ApplicationUser.FullName,
+                    productUserVM.ApplicationUser.Email,
+                    productUserVM.ApplicationUser.PhoneNumber,
+                    productListSB.ToString());
+
+                await _es.SendEmailAsync(WC.EmailRecevier, subject, messageBody);
+
+                // Add Inquiry stuff
+
+                InquiryHeader inquiryHeader = new InquiryHeader()
+                {
+                    ApplicationUserId = claim.Value,
+                    FullName = productUserVM.ApplicationUser.FullName,
+                    Email = productUserVM.ApplicationUser.Email,
+                    PhoneNumber = productUserVM.ApplicationUser.PhoneNumber,
+                    InquiryDate = DateTime.Now
+                };
+
+                _inquiryHeaderRepo.Add(inquiryHeader);   // save to Database
+                _inquiryHeaderRepo.Save();
+
+                foreach (var prod in productUserVM.ProductList)
+                {
+                    InquiryDetail inquiryDetail = new InquiryDetail()
+                    {
+                        InquiryHeaderId = inquiryHeader.Id,     // can this get the ID
+                        ProductId = prod.Id
+                    };
+                    _inquiryDetailRepo.Add(inquiryDetail);   // save to Database
+
+                }
+
+                _inquiryDetailRepo.Save();
+
+#if DEBUG
+                _logger.LogWarning("Send Email !  then R==> Action: Cart/InquiryConfirmation");
+#endif
+
+
+                return RedirectToAction(nameof(InquiryConfirmation));
+
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         }
 
-        public IActionResult InquiryConfirmation()
+        public IActionResult InquiryConfirmation(int id=0)
         {
 #if DEBUG
             _logger.LogWarning("Cart Controller--Cart--InquiryConfirmation");
             _logger.LogWarning(User?.Identity?.Name);
 #endif
+            OrderHeader orderHeader = _orderHeaderRepo.FirstOrDefault(u => u.Id == id);
+
 
             HttpContext.Session.Clear();
 #if DEBUG
             _logger.LogWarning("==> view: Cart/InquiryConfirmation");
 #endif
 
-            return View();
+            return View(orderHeader);
         }
 
         public IActionResult Remove(int Id)

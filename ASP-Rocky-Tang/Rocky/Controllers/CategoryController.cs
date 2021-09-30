@@ -30,7 +30,7 @@ namespace Rocky.Controllers
             _logger = logger;
 #if DEBUG
             _logger.LogWarning("instantiate-- Category Controller");
-            _logger.LogWarning(User?.Identity?.Name);
+
 #endif
 
         }

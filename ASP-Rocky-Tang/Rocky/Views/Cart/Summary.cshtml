@@ -49,6 +49,7 @@
                                         @*<input type="text" value="@Model.ApplicationUser.PhoneNumber" class="form-control" />*@
                                         <input type="text" asp-for="ApplicationUser.PhoneNumber" required class="form-control" />
                                         <span asp-validation-for="ApplicationUser.PhoneNumber" class="text-danger"></span>
+
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
@@ -75,7 +76,7 @@
                                         </div>
                                         <div class="col-9">
                                             @*<input type="text" value="@Model.ApplicationUser.Email" class="form-control" />*@
-                                            <input type="text" asp-for="ApplicationUser.StreetAddress" class="form-control" />
+                                            <input type="text" asp-for="ApplicationUser.StreetAddress" required class="form-control" />
                                             <span asp-validation-for="ApplicationUser.StreetAddress" class="text-danger"></span>
                                             <span class="text-danger"></span>
                                         </div>
@@ -86,7 +87,7 @@
                                         </div>
                                         <div class="col-9">
                                             @*<input type="text" value="@Model.ApplicationUser.Email" class="form-control" />*@
-                                            <input type="text" asp-for="ApplicationUser.City" class="form-control" />
+                                            <input type="text" asp-for="ApplicationUser.City" required class="form-control" />
                                             <span asp-validation-for="ApplicationUser.City" class="text-danger"></span>
                                             <span class="text-danger"></span>
                                         </div>
@@ -97,7 +98,7 @@
                                         </div>
                                         <div class="col-9">
                                             @*<input type="text" value="@Model.ApplicationUser.Email" class="form-control" />*@
-                                            <input type="text" asp-for="ApplicationUser.State" class="form-control" />
+                                            <input type="text" asp-for="ApplicationUser.State" required class="form-control" />
                                             <span asp-validation-for="ApplicationUser.State" class="text-danger"></span>
                                             <span class="text-danger"></span>
                                         </div>
@@ -109,7 +110,7 @@
                                         </div>
                                         <div class="col-9">
                                             @*<input type="text" value="@Model.ApplicationUser.Email" class="form-control" />*@
-                                            <input type="text" asp-for="ApplicationUser.PostalCode" class="form-control" />
+                                            <input type="text" asp-for="ApplicationUser.PostalCode" required class="form-control" />
                                             <span asp-validation-for="ApplicationUser.PostalCode" class="text-danger"></span>
                                             <span class="text-danger"></span>
                                         </div>
@@ -173,12 +174,14 @@
                         <div class="col-12 col-md-5 offset-md-7">
                             @if (User.IsInRole(WC.AdminRole))
                             {
-                               <button type="submit" class="btn btn-primary form-control">Submit Inquiry</button>
-                             }
-                             else
-                             {
-                               <button class="btn btn-success form-control" id="submit-button">Submit Order</button>
-                              }
+                                 // go to Cart/SummaryPost => will sent an Email to Admain
+                                <button class="btn btn-success form-control" id="submit-button">Submit Order</button>              
+                            }
+                            else
+                            {
+                                // go to Cart/SummaryPost => will sent an Email to Admain
+                                <button type="submit" class="btn btn-primary form-control">Submit Inquiry</button>
+                            }
                             
                         </div>
                     </div>

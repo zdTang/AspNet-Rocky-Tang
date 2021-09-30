@@ -14,7 +14,7 @@ namespace Rocky.Controllers
     {
 
 
-        private readonly ILogger<ApplicationController> _logger;
+        private readonly ILogger<InquiryController> _logger;
         private readonly IInquiryDetailRepository _inquiryDetailRepo;
         private readonly IInquiryHeaderRepository _inquiryHeaderRepo;
 
@@ -22,7 +22,7 @@ namespace Rocky.Controllers
         public InquiryVM InquiryVM { get; set; }
 
         public InquiryController(
-            ILogger<ApplicationController> logger,
+            ILogger<InquiryController> logger,
             IInquiryDetailRepository inquiryDetailRepo,
             IInquiryHeaderRepository inquiryHeaderRepo
             )
@@ -35,6 +35,11 @@ namespace Rocky.Controllers
 #endif
 
         }
+        /// <summary>
+        ///  Not like traditonal Asp.net view, its data will be loaded after the view 
+        ///  Once the view has been loaded, it will uas Ajax call GetInquiryList()
+        /// </summary>
+        /// <returns></returns>
 
         public IActionResult Index()
         {
@@ -46,6 +51,11 @@ namespace Rocky.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Base on the Id in the inquaryHeader, retrive the whole InquiryHeader, InquiryDetail and display
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 
         public IActionResult Details(int id)
         {
@@ -67,6 +77,12 @@ namespace Rocky.Controllers
         }
 
         //InquiryVM is binded with this action
+        /// <summary>
+        /// Convert Inquiry to Cart
+        /// WILL Push the Item from Inquiry into Session
+        /// WILL Push the inquiry ID into the Session
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Details()
@@ -136,6 +152,10 @@ namespace Rocky.Controllers
         [HttpGet]
         public IActionResult GetInquiryList()
         {
+#if DEBUG
+            _logger.LogWarning("Inquiry  Controller--GetInquiryList--API !!");
+            _logger.LogWarning(User?.Identity?.Name);
+#endif
             return Json(new { data = _inquiryHeaderRepo.GetAll() });
         }
         #endregion

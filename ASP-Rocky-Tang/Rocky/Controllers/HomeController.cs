@@ -39,7 +39,7 @@ namespace Rocky_Controllers
             _cr = cr;
 #if DEBUG
             _logger.LogWarning("instantiate-- HomeController");
-            _logger.LogWarning(User?.Identity?.Name);
+
 #endif
 
         }
