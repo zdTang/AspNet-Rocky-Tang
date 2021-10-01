@@ -1,6 +1,6 @@
 ﻿@page
 @model RegisterModel
-@using Rocky_Utility 
+@using Rocky_Utility
 @if (User.IsInRole(WC.AdminRole))
 {
     <h1>Register an Admin Account</h1>
@@ -91,4 +91,7 @@ else
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        console.log("Area/Identity/Account/Register.cshtml")
+    </script>
 }

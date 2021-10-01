@@ -12,6 +12,7 @@ using Rocky_Utility;
 using System;
 using Rocky_DataAccess.Repository.IRepository;
 using Rocky_DataAccess.Repository;
+using Rocky_Utility.BrainTree;
 
 namespace Rocky
 {
@@ -52,6 +53,11 @@ namespace Rocky
             services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+
+            // Retrive "BrainTree" section from "appsetting.json"
+            services.Configure<BrainTreeSettings>(Configuration.GetSection("BrainTree"));
+            // Register Braintree class, make sure the Interface is public as it lies in different module
+            services.AddSingleton<IBrainTreeGate, BrainTreeGate>();
 
             // Added IdentityUser
             // need packages:

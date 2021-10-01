@@ -1001,3 +1001,5 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Rocky.d
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\ref\Rocky.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Rocky.pdb
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Rocky.genruntimeconfig.cache
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Braintree.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll

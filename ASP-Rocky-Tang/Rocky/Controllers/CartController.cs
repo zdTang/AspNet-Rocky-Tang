@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Braintree;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,6 +11,7 @@ using Rocky_DataAccess.Repository.IRepository;
 using Rocky_Models;
 using Rocky_Models.ViewModels;
 using Rocky_Utility;
+using Rocky_Utility.BrainTree;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,6 +36,7 @@ namespace Rocky.Controllers
         private readonly IWebHostEnvironment _en;
         private readonly IEmailSender _es;
         private readonly ILogger<CartController> _logger;
+        private readonly IBrainTreeGate _brain;
 
 
         [BindProperty]
@@ -47,7 +51,8 @@ namespace Rocky.Controllers
             IOrderDetailRepository orderDetailRepo,
             IWebHostEnvironment en, 
             IEmailSender es,
-            ILogger<CartController> logger)
+            ILogger<CartController> logger,
+            IBrainTreeGate brain)
         {
             _productRepo = productRepo;
             _applicationUserRepo = applicationUserRepo;
@@ -58,7 +63,8 @@ namespace Rocky.Controllers
             _en = en;
             _es = es;
             _logger = logger;
-#if DEBUG
+            _brain = brain;            //  BrainTree
+#if DEBUG   
             _logger.LogWarning("instantiate-- Cart Controller");
 
 #endif
@@ -240,6 +246,11 @@ namespace Rocky.Controllers
                 {
                     applicationUser = new ApplicationUser();
                 }
+
+                // use BrainTree gate way
+                var gateway = _brain.GetGateway();                    // Instantiate an instance of BraintreeGateway
+                var clientToken = gateway.ClientToken.Generate();     // Use BraintreeGateway Instance to generate a clientToken
+                ViewBag.ClientToken = clientToken;                    // This token will send to frontEnd 
             }
 
             else
@@ -304,7 +315,7 @@ namespace Rocky.Controllers
         [ValidateAntiForgeryToken]
         [ActionName("Summary")]
 
-        public async Task<IActionResult> SummaryPost(ProductUserVM productUserVM)
+        public async Task<IActionResult> SummaryPost(IFormCollection formCollection, ProductUserVM productUserVM)
         {
         #if DEBUG
             _logger.LogWarning("Cart Controller--Summary--Post");
@@ -326,7 +337,7 @@ namespace Rocky.Controllers
                 var orderTotal = 0.0;
                 foreach(Product prod in productUserVM.ProductList)
                 {
-                    orderTotal += prod.TempSqFt;
+                    orderTotal += (prod.TempSqFt)*(prod.Price);
                 }
 
                 // Order Header
@@ -364,6 +375,7 @@ namespace Rocky.Controllers
                 }
                 _orderDetailRepo.Save();
 
+
 #if DEBUG
                 _logger.LogWarning(" Push order to DB, then  R==> Action: Cart/InquiryConfirmation");
 #endif
@@ -393,7 +405,36 @@ namespace Rocky.Controllers
 
                 #endregion
 
+                #region  Deal with BrainTree
 
+                //payment_method_nonce
+
+                string nonceFromTheClient = formCollection["payment_method_nonce"];
+                var request = new TransactionRequest
+                {
+                    Amount = Convert.ToDecimal(orderHeader.FinalOrderTotal),    // The money we want to charge  !!! should be very accurate
+                    PaymentMethodNonce = nonceFromTheClient,  // this Nounce is passed from Braintree
+                    //DeviceData = deviceDataFromTheClient,   // we don't need this data
+                    OrderId = orderHeader.Id.ToString(),
+                    Options = new TransactionOptionsRequest
+                    {
+                        SubmitForSettlement = true
+                    }
+                };
+
+                var gateway = _brain.GetGateway();
+                Result<Transaction> result = gateway.Transaction.Sale(request);// Sent Request by Gateway
+
+                if (result.Target.ProcessorResponseText == "Approved")
+                {
+                    orderHeader.TransactionId = result.Target.Id;
+                    orderHeader.OrderStatus = WC.StatusApproved;
+                }
+                else
+                {
+                    orderHeader.OrderStatus = WC.StatusCancelled;
+                }
+                #endregion
 
 
 
@@ -526,6 +567,27 @@ namespace Rocky.Controllers
 #endif
 
             return View("home/index");
+        }
+
+
+
+        public IActionResult Clear()
+        {
+#if DEBUG
+            _logger.LogWarning("Cart Controller--Cart/Clear");
+            _logger.LogWarning(User?.Identity?.Name);
+#endif
+
+            //List<ShoppingCart> shoppingCartList = new List<ShoppingCart>();             // create a empty item List
+            HttpContext.Session.Clear();
+            
+                TempData[WC.Success] = "Cart has been cleared successfully!";
+#if DEBUG
+                _logger.LogWarning("R==> Action: Home/Index");
+#endif
+
+                return RedirectToAction("Index","Home");
+
         }
     }
 }

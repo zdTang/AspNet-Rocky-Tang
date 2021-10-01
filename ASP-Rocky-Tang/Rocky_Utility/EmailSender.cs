@@ -22,6 +22,10 @@ namespace Rocky_Utility
 
 
         //  Configuration has been injected by the Framework
+        /// <summary>
+        /// Here try to make clear how the Dependency Injection works !!!
+        /// </summary>
+        /// <param name="configration"></param>
         public EmailSender(IConfiguration configration) {
             _configration = configration;
         }

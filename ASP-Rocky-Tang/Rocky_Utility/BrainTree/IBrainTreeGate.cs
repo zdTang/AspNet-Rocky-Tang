@@ -2,9 +2,9 @@
 
 namespace Rocky_Utility.BrainTree
 {
-    interface IBrainTreeGate
+    public interface IBrainTreeGate
     {
-
+        // Need add package "Braintree"
         IBraintreeGateway CreateGateway();
         IBraintreeGateway GetGateway();
     }
