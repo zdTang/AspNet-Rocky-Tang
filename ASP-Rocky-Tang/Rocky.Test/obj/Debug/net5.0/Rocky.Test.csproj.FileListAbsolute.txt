@@ -511,4 +511,4 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\obj\Debug\net5.0\Ro
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\obj\Debug\net5.0\Rocky.Test.genruntimeconfig.cache
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\bin\Debug\net5.0\Braintree.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll
-D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\bin\Debug\net5.0\Rocky.StaticWebAssets.xml
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.Facebook.dll

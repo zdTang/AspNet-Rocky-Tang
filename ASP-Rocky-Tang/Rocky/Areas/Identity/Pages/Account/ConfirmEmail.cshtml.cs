@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
 
 namespace Rocky.Areas.Identity.Pages.Account
 {
@@ -15,10 +16,12 @@ namespace Rocky.Areas.Identity.Pages.Account
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger<ConfirmEmailModel> _logger;
 
-        public ConfirmEmailModel(UserManager<IdentityUser> userManager)
+        public ConfirmEmailModel(UserManager<IdentityUser> userManager, ILogger<ConfirmEmailModel> logger)
         {
             _userManager = userManager;
+            _logger = logger;
         }
 
         [TempData]
@@ -26,6 +29,10 @@ namespace Rocky.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)
         {
+#if DEBUG
+            _logger.LogWarning("onGetAsync--Email Confirmation !!!");
+            _logger.LogWarning(User.Identity.Name);
+#endif
             if (userId == null || code == null)
             {
                 return RedirectToPage("/Index");

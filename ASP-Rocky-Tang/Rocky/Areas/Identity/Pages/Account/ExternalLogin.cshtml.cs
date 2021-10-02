@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Rocky_Models;
+using Rocky_Utility;
 
 namespace Rocky.Areas.Identity.Pages.Account
 {
@@ -51,6 +53,10 @@ namespace Rocky.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            [Required]
+            public string FullName { get; set; }             // tang added    
+            [Required]
+            public string PhoneNumber { get; set; }          // Identity package build-in
         }
 
         public IActionResult OnGetAsync()
@@ -101,7 +107,9 @@ namespace Rocky.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        //Tang: this page are retrived from Facebook !
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),// Tang: getting from Facebook etc third party data
+                        FullName= info.Principal.FindFirstValue(ClaimTypes.Name) //Tang: populate this data to the page
                     };
                 }
                 return Page();
@@ -121,15 +129,26 @@ namespace Rocky.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                //var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };  // Framework original code
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FullName=Input.FullName,PhoneNumber=Input.PhoneNumber };
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, WC.CustomerRole);
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
+                        /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
+                        // Here is the trick of Email-confirmation !!
+                        // Generate two userId and Code, and sent them to User's declared Email Address
+                        // If the Email Address is correct, then once the User click the LINK on the Email page
+                        // that Link will send a request to /confirmEmail Page
+                        // and the confirmEmail page will validate the userId and the Code
+
 
                         var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -139,6 +158,9 @@ namespace Rocky.Areas.Identity.Pages.Account
                             pageHandler: null,
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: Request.Scheme);
+
+                        // Send the Email to user to validate the email address !!
+                        // Be aware that the Link has a "callbackUrl" which has "values" inside.
 
                         await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                             $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");

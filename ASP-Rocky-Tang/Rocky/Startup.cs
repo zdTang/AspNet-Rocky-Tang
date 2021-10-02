@@ -81,6 +81,14 @@ namespace Rocky
             //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0
             services.AddScoped<IMyDependency, MyDependency>();
 
+            // Add FaceBook authentification = 915462692687085
+            // ToDo: is this a good place to save these keys ?????
+            services.AddAuthentication().AddFacebook(Options =>
+            {
+                Options.AppId = "915462692687085";
+                Options.AppSecret = "c7e7f58bf79500ebcaaa5745db67e3e6";
+            });
+
 
         }
 

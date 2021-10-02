@@ -69,7 +69,9 @@ namespace Rocky.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
             // Add two more properties  --- Tang
+            [Required]
             public string FullName { get; set; }             // tang added    
+            [Required]
             public string PhoneNumber { get; set; }          // Identity package build-in
         }
 
@@ -107,18 +109,23 @@ namespace Rocky.Areas.Identity.Pages.Account
                 
                 if (result.Succeeded)
                 {
-                    //this line  will be run for createing the first USER - Administrator !
+                    /*======================================
+                     * For how to deal with the first user
+                     * =====================================*/
+                    
+                    //the following line  will be run for createing the first USER - Administrator !
 
                     //await _userManager.AddToRoleAsync(user, WC.AdminRole);
                     
                     if (User.IsInRole(WC.AdminRole))       // User object -- represent the user logged in
                     {
-                        // An admin has logged in 
+                        // The Admin is creating another Admin account
                         await _userManager.AddToRoleAsync(user, WC.AdminRole);   // Tang added
 
                     }
                     else
                     {
+                        // A null User is creating an Account for himself
                         await _userManager.AddToRoleAsync(user, WC.CustomerRole);   // Tang added
                     }
                     
