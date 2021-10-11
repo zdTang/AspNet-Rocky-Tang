@@ -156,3 +156,16 @@
    ##  Validation:  
        for some fields, such as Email name we hieriated from Identity class, We cannot add [Required] to validate it
        but we can add "required" on the cshtml file
+
+
+  ## syncfustion    UI component
+
+  ## sweetalert  library 
+  #  https://sweetalert2.github.io/
+  in the summary view,   if we clicked the submit, if the credit card information is correct, then the form will be submitted without caring about
+  if other information is not valid.
+
+  I check it and find the 'submit' button is part of 'Braintree', maybe it is the reason.
+  
+
+

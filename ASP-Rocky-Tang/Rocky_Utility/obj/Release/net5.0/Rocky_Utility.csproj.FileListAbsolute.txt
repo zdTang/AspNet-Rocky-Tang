@@ -9,3 +9,4 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\obj\Release\net5
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\obj\Release\net5.0\Rocky_Utility.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\obj\Release\net5.0\ref\Rocky_Utility.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\obj\Release\net5.0\Rocky_Utility.pdb
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky_Utility\obj\Release\net5.0\Rocky_Utility.csproj.AssemblyReference.cache

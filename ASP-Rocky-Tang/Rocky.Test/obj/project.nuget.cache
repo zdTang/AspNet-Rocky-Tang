@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xB0ipd5Ff1RdHrIAOfI9EeZQApIrhnUpII5mAWo99z21riSQgIzZ+0C+8Bf16eqcXitc6lA/heC02JgtXT/ytQ==",
+  "dgSpecHash": "KjsA3QGtfrhQ2CM4bpNyFQsbv52aoA0cHSYCC4RgDZ7AHpPsKrk+jvNJT6oIsk61zPyA3MpYwxTlXeDdJGToRA==",
   "success": true,
   "projectFilePath": "D:\\AspDotNetCore\\AspNet-Rocky-Tang\\ASP-Rocky-Tang\\Rocky.Test\\Rocky.Test.csproj",
   "expectedPackageFiles": [
@@ -121,6 +121,8 @@
     "C:\\Users\\micha\\.nuget\\packages\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\micha\\.nuget\\packages\\syncfusion.ej2.aspnet.core\\19.3.0.43\\syncfusion.ej2.aspnet.core.19.3.0.43.nupkg.sha512",
+    "C:\\Users\\micha\\.nuget\\packages\\syncfusion.licensing\\19.3.0.43\\syncfusion.licensing.19.3.0.43.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\system.appcontext\\4.3.0\\system.appcontext.4.3.0.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\micha\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",

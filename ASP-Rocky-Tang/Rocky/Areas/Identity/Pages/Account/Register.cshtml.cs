@@ -33,6 +33,14 @@ namespace Rocky.Areas.Identity.Pages.Account
             IEmailSender emailSender,
             RoleManager<IdentityRole> roleManager)    // Tang added
         {
+           /*========================
+            * Here we have three managers:
+            * 1. userManager
+            * 2. roleManager
+            * 3. SigninManager
+            * ====================*/
+            
+            
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -89,6 +97,10 @@ namespace Rocky.Areas.Identity.Pages.Account
             }
             
             ReturnUrl = returnUrl;
+            /*================================================
+             * Here ! if the framework has registered ExternalLogins
+             * The "ExternalLogins" will have value such as "facebook"
+             * ============================================*/
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 

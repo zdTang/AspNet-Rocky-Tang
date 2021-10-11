@@ -78,6 +78,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" asp-area="" asp-controller="Inquiry" asp-action="Index">Inquiry</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
 
                                 </div>
                             </li>
@@ -143,5 +144,7 @@
 
     @*ALL SCRIPT WILL BE INSERTED HERE !!!*@
     @await RenderSectionAsync("Scripts", required: false)
+
+<ejs-scripts></ejs-scripts>
 </body>
 </html>

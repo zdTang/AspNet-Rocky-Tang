@@ -36,6 +36,8 @@ namespace Rocky.Areas.Identity.Pages.Account
             _userManager = userManager;
             _logger = logger;
             _emailSender = emailSender;
+            _logger.LogWarning("ExternalLoginModel--Instantiate");
+
         }
 
         [BindProperty]
@@ -61,46 +63,98 @@ namespace Rocky.Areas.Identity.Pages.Account
 
         public IActionResult OnGetAsync()
         {
+            _logger.LogWarning("ExternalLoginModel--onGetAsync");
             return RedirectToPage("./Login");
         }
-
+        /// <summary>
+        /// When user click "Facebook" button on the "Register" page
+        /// It will POST a request to this Action !!!
+        /// After executing this Action
+        /// if the user has already logon Facebook with this browser
+        /// then the browser has cookies which can prove the user is a
+        /// valid Facebook user, so that user will not need to login in 
+        /// Facebook.  Or, a Facebook login page will pop up and user have
+        /// to input his username and password
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         public IActionResult OnPost(string provider, string returnUrl = null)
         {
+            _logger.LogWarning("ExternalLoginModel--onPost");
+            _logger.LogWarning($"provider is -- {provider}");
+
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
-
+        /// <summary>
+        /// Once user can login Facebook successfully from the up Action
+        /// it will come here
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <param name="remoteError"></param>
+        /// <returns></returns>
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
+            _logger.LogWarning("ExternalLoginModel--OnGetCallbackAsync");
+            _logger.LogWarning($"returnUrl is -- {returnUrl}");
+
             returnUrl = returnUrl ?? Url.Content("~/");
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
                 return RedirectToPage("./Login", new {ReturnUrl = returnUrl });
             }
+
+
             var info = await _signInManager.GetExternalLoginInfoAsync();
+
+
+            _logger.LogWarning("ExternalLoginModel/OnGetCallbackAsync=>info back!!");
+            _logger.LogWarning($"info's user is {info.Principal.FindFirstValue(ClaimTypes.Name) }");
+
+            //  cannot get external Information ???
+
             if (info == null)
             {
                 ErrorMessage = "Error loading external login information.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
+
             // Sign in the user with this external login provider if the user already has a login.
+            // Try to login with the User's External Information
+
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
+
+            _logger.LogWarning("ExternalLoginModel/OnGetCallbackAsync=>result");
+            _logger.LogWarning($"result's succeed is {result.Succeeded.ToString()}");
+
+            // The user exist ??????
+
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
+
+            //  Another scenario
+
+
             if (result.IsLockedOut)
             {
                 return RedirectToPage("./Lockout");
             }
+
+            //  Display a view for user to register with External Information
+            //  Here, the "email" and "full name" are come from Facebook
             else
             {
                 // If the user does not have an account, then ask the user to create an account.
+
+                _logger.LogWarning("Provide a form for user to fill out!");
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
@@ -115,9 +169,16 @@ namespace Rocky.Areas.Identity.Pages.Account
                 return Page();
             }
         }
-
+        /// <summary>
+        /// Once user filled out "Register" view and click "Register"
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
+
+            _logger.LogWarning("ExternalLoginModel/OnPostConfirmationAsync");
+
             returnUrl = returnUrl ?? Url.Content("~/");
             // Get the information about the user from the external login provider
             var info = await _signInManager.GetExternalLoginInfoAsync();
@@ -132,11 +193,18 @@ namespace Rocky.Areas.Identity.Pages.Account
                 //var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };  // Framework original code
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FullName=Input.FullName,PhoneNumber=Input.PhoneNumber };
 
+                _logger.LogWarning("Create a new user and add to DB !!");
                 var result = await _userManager.CreateAsync(user);
+
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, WC.CustomerRole);
+                    _logger.LogWarning("add new user to Role Table!!");
+
                     result = await _userManager.AddLoginAsync(user, info);
+
+                    _logger.LogWarning("add data to login Table !!");
+
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);

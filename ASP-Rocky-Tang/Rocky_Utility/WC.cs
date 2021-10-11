@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 /// <summary>
@@ -11,7 +12,7 @@ namespace Rocky_Utility
     // which we can get from IWebHostEnvironment (whose implement has been injected with DI)
     public static class WC
     {
-       
+
         public const string ImagePath = @"\images\product\";     /**This folder is for containing images*/
         public const string SessionCart = "ShoppingCartSession";
         public const string SessionInquiryId = "InquiryIdSession";
@@ -40,7 +41,19 @@ namespace Rocky_Utility
         public const string StatusApproved = "Approved";
         public const string StatusInProcess = "InProcess";
         public const string StatusShipped = "Shipped";
-        public const string StatusCancelled = "Cancelled"; 
+        public const string StatusCancelled = "Cancelled";
         public const string StatusRefunded = "Refunded";
+        /// <summary>
+        ///  Pay attention how to create a string list
+        /// </summary>
+        public readonly static IEnumerable<string> listStatus = new ReadOnlyCollection<string>(new List<string>
+        {
+            StatusPending,
+            StatusApproved,
+            StatusInProcess,
+            StatusShipped,
+            StatusCancelled,
+            StatusRefunded
+        });
     }
 }
