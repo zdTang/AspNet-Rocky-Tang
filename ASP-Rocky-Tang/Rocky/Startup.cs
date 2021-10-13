@@ -13,6 +13,7 @@ using System;
 using Rocky_DataAccess.Repository.IRepository;
 using Rocky_DataAccess.Repository;
 using Rocky_Utility.BrainTree;
+using Rocky_DataAccess.Initializer;
 
 namespace Rocky
 {
@@ -79,7 +80,9 @@ namespace Rocky
 
             //Test by myself
             //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0
+            //To migrate Db, create roles and Admin
             services.AddScoped<IMyDependency, MyDependency>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
 
             // Add FaceBook authentification = 915462692687085
             // ToDo: is this a good place to save these keys ?????
@@ -93,7 +96,7 @@ namespace Rocky
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -118,6 +121,8 @@ namespace Rocky
 
             app.UseAuthorization();
             // Add session
+
+            dbInitializer.Initalize();
             app.UseSession();
 
             app.UseEndpoints(endpoints =>

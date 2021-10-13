@@ -44,7 +44,7 @@ namespace Rocky_Models
         public virtual ApplicationType ApplicationType { set; get; }
         
         [NotMapped]      // will not Migrate to Database
-        [Range(1,10000)]
+        [Range(1,10000,ErrorMessage="Sqft must be greater than 0")]
         public int TempSqFt { get; set; }     // Not add to the Dabase
 
 

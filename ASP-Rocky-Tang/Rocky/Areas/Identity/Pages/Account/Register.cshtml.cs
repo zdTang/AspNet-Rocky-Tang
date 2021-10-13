@@ -163,15 +163,25 @@ namespace Rocky.Areas.Identity.Pages.Account
                     {
                         //  if it is not Admin, means it is a new normal user, then sign in  after registeration
                         //  if it is Admin, mean the Admin is creating another Admin user, do not need sign in automatically
-                        if (!User.IsInRole(WC.AdminRole))   
+                        //if (!User.IsInRole(WC.AdminRole))   
+                        //{
+                        //    await _signInManager.SignInAsync(user, isPersistent: false);
+                        //}
+                        //else
+                        //{
+                        //    return RedirectToAction("Index");
+                        //}
+                        //return LocalRedirect(returnUrl);
+                        if (User.IsInRole(WC.AdminRole))
                         {
-                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            TempData[WC.Success] = user.FullName + " has been registered";
+                            return RedirectToAction("Index", "Home");
                         }
                         else
                         {
-                            return RedirectToAction("Index");
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);
                         }
-                        return LocalRedirect(returnUrl);
                     }
                 }
                 foreach (var error in result.Errors)

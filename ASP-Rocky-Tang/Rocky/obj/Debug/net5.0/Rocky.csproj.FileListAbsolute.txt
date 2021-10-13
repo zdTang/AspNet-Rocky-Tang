@@ -1007,3 +1007,4 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Microso
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Order\Index.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Syncfusion.EJ2.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Debug\net5.0\Syncfusion.Licensing.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Debug\net5.0\Razor\Views\Order\Details.cshtml.g.cs

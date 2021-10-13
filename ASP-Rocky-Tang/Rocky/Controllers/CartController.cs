@@ -436,8 +436,8 @@ namespace Rocky.Controllers
                 }
                 #endregion
 
-
-
+                //  Never forget save all update !
+                _inquiryHeaderRepo.Save();
 
                 return RedirectToAction(nameof(InquiryConfirmation),new {id=orderHeader.Id}); //??
 

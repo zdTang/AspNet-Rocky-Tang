@@ -162,10 +162,32 @@
 
   ## sweetalert  library 
   #  https://sweetalert2.github.io/
+
+
+
   in the summary view,   if we clicked the submit, if the credit card information is correct, then the form will be submitted without caring about
   if other information is not valid.
 
   I check it and find the 'submit' button is part of 'Braintree', maybe it is the reason.
+
+##  for these tap helpers. make sure they can work as expected !!!
+asp-action="ShipOrder" 
+
+If using 'formaction' format, must add controller name
+formaction="/Order/ShipOrder"  //   it muse use the full path !
+
+
+
+##Seeding 
+
+password policy, if password is too simple, creating the user will fail ! and no error has been reported !!!
+Make sure the first admin to be created successfully!
+
+How to check if user has been created successfully ??
+how to customize the password create policies ??
+
+##  awaiter()   study async
+
   
 
 
