@@ -510,3 +510,8 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\obj\Release\net5.0\
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\obj\Release\net5.0\ref\Rocky.Test.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\obj\Release\net5.0\Rocky.Test.pdb
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\obj\Release\net5.0\Rocky.Test.genruntimeconfig.cache
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\bin\Release\net5.0\Braintree.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\bin\Release\net5.0\Microsoft.AspNetCore.Authentication.Facebook.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\bin\Release\net5.0\Syncfusion.EJ2.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\bin\Release\net5.0\Syncfusion.Licensing.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky.Test\bin\Release\net5.0\System.Xml.XPath.XmlDocument.dll

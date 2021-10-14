@@ -19,6 +19,13 @@ namespace Rocky_DataAccess.Repository
            _db=db;
         }
 
+        /// <summary>
+        /// Prepare for DropdownList on the Product View
+        /// Here we will crate a dropDownlist based on a string parameter
+        /// The parameter are defined as constant in WC class
+        /// </summary>
+        /// <param name="obj">The name of the table</param>
+        /// <returns></returns>
         public IEnumerable<SelectListItem> GetAllDropdownList(string obj)
         {
             if (obj == WC.CategoryName)
@@ -31,7 +38,7 @@ namespace Rocky_DataAccess.Repository
             }
             if (obj == WC.ApplicationTypeName)
             {
-                _db.ApplicationType.Select(i => new SelectListItem
+                return _db.ApplicationType.Select(i => new SelectListItem
                 {
                     Text = i.Name,
                     Value = i.Id.ToString()

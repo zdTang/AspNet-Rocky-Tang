@@ -286,8 +286,10 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\refs\
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\refs\WindowsBase.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Rocky.Views.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Rocky.Views.pdb
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Braintree.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Humanizer.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Mailjet.Client.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Microsoft.AspNetCore.Authentication.Facebook.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
@@ -330,6 +332,8 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Micro
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Newtonsoft.Json.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Newtonsoft.Json.Bson.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Syncfusion.EJ2.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Syncfusion.Licensing.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\System.Composition.AttributedModel.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\System.Composition.Convention.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\System.Composition.Hosting.dll
@@ -340,6 +344,7 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Syste
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\System.IdentityModel.Tokens.Jwt.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\System.Runtime.Caching.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\System.Security.Cryptography.ProtectedData.dll
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\System.Xml.XPath.XmlDocument.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\cs\Microsoft.CodeAnalysis.resources.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\de\Microsoft.CodeAnalysis.resources.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\es\Microsoft.CodeAnalysis.resources.dll
@@ -486,6 +491,8 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Razor
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Razor\Views\Home\Index.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Razor\Views\Inquiry\Details.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Razor\Views\Inquiry\Index.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Razor\Views\Order\Details.cshtml.g.cs
+D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Razor\Views\Order\Index.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Razor\Views\Product\Delete.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Razor\Views\Product\Index.cshtml.g.cs
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Razor\Views\Product\Upsert.cshtml.g.cs
@@ -505,7 +512,3 @@ D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Rocky
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\ref\Rocky.dll
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Rocky.pdb
 D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Rocky.genruntimeconfig.cache
-D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Braintree.dll
-D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\Microsoft.AspNetCore.Authentication.Facebook.dll
-D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\bin\Release\net5.0\System.Xml.XPath.XmlDocument.dll
-D:\AspDotNetCore\AspNet-Rocky-Tang\ASP-Rocky-Tang\Rocky\obj\Release\net5.0\Razor\Views\Order\Index.cshtml.g.cs
