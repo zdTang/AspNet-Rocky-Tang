@@ -251,6 +251,7 @@ namespace Rocky.Controllers
                 var gateway = _brain.GetGateway();                    // Instantiate an instance of BraintreeGateway
                 var clientToken = gateway.ClientToken.Generate();     // Use BraintreeGateway Instance to generate a clientToken
                 ViewBag.ClientToken = clientToken;                    // This token will send to frontEnd 
+                ViewBag.UserCategory = WC.AdminRole;  //  tell front end to execute braintree script code
             }
 
             else
@@ -259,6 +260,7 @@ namespace Rocky.Controllers
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
                 //var userId = User.FindFirstValue(ClaimTypes.Name);
                 applicationUser = _applicationUserRepo.FirstOrDefault(u => u.Id == claim.Value);
+                
             }
 
             
