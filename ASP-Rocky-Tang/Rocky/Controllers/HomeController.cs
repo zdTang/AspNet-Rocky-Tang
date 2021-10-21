@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Rocky_DataAccess.Repository.IRepository;
+using Microsoft.AspNetCore.Http;
 
 namespace Rocky_Controllers
 {
@@ -19,6 +20,7 @@ namespace Rocky_Controllers
         //private readonly ApplicationDbContext _db;
         private readonly ICategoryRepository _cr;
         private readonly IProductRepository _db;
+
         
         //[BindProperty]
         //private DetailsVM detailsVM { set; get; }
@@ -31,12 +33,14 @@ namespace Rocky_Controllers
             //ApplicationDbContext db
             IProductRepository db,
             ICategoryRepository cr
+
             )
         {
             _logger = logger;
             //_myDependency = myDependency;
             _db = db;
             _cr = cr;
+
 #if DEBUG
             _logger.LogWarning("instantiate-- HomeController");
 
@@ -52,7 +56,7 @@ namespace Rocky_Controllers
             _logger.LogWarning(User?.Identity?.Name);
 #endif
 
-
+            
 
             //  Testing DI
             //_myDependency.WriteMessage("TESTING Dependency Injection !!!");

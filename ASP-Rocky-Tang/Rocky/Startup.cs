@@ -19,21 +19,36 @@ namespace Rocky
 {
     public class Startup
     {
+
+        // can assess appsettings.json file to read Setup string such as DB connection string....
+        public IConfiguration Configuration { get; }
+
+
+        // it is a constructor here
+        // using DI to inject configuration object
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Configuration = configuration;    // DI 
         }
 
-        public IConfiguration Configuration { get; }
+   
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // Do DI here !!!!
-        public void ConfigureServices(IServiceCollection services)
+        // I switch the name to 'ConfigureXXXServices' format to make it a environment-specific
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services">The handler to access all types currently registered with the DI system</param>
+        public void ConfigureDevelopmentServices(IServiceCollection services)
         {
-            services.AddControllersWithViews(); // MVC
-            // Add session
+            // Register static file browsing www root path
+            //services.AddDirectoryBrowser();
+            // Register MVC
+            services.AddControllersWithViews(); 
+            // Register HttpContext so as we can use HttpContext
             services.AddHttpContextAccessor();
-
+            // Add session
             services.AddSession(Options =>
             {
                 Options.IdleTimeout = TimeSpan.FromMinutes(10);
@@ -42,6 +57,7 @@ namespace Rocky
             });
 
             // Add DbContext
+            // Here using 'Configuration' object to access 'appsettings.json' 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")));
 
@@ -96,7 +112,14 @@ namespace Rocky
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
+        /// <summary>
+        ///    I switch the name to 'ConfigureXXX' format to make it a environment-specific
+        /// </summary>
+        /// <param name="app">An object passed by Runtime for adding Middleware</param>
+        /// <param name="env">An object passed by runtime for reading Environment data</param>
+        /// <param name="dbInitializer">User customized Object for seeding Database for the first run</param>
+        /// 
+        public void ConfigureDevelopment(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -106,13 +129,14 @@ namespace Rocky
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseHsts();     //  about HTTPS
             }
             // Enforce to use HTTPS
             //https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-5.0&tabs=visual-studio
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+            //app.UseDirectoryBrowser();  // Browse static files
 
             app.UseRouting();
 
@@ -135,5 +159,25 @@ namespace Rocky
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
+        /// <summary>
+        /// Reserved for Production Environment
+        /// </summary>
+        public void ConfigureProductionServices()
+        {
+
+        }
+
+
+
+
+        /// <summary>
+        /// Reserved for Production Environment
+        /// </summary>
+        public void ConfigureProduction()
+        {
+
+        }
+       
     }
 }

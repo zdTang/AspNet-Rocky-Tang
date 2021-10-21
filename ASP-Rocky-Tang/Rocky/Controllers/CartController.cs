@@ -251,7 +251,8 @@ namespace Rocky.Controllers
                 var gateway = _brain.GetGateway();                    // Instantiate an instance of BraintreeGateway
                 var clientToken = gateway.ClientToken.Generate();     // Use BraintreeGateway Instance to generate a clientToken
                 ViewBag.ClientToken = clientToken;                    // This token will send to frontEnd 
-                ViewBag.UserCategory = WC.AdminRole;  //  tell front end to execute braintree script code
+                // use this to 
+                ViewBag.UserCategory = WC.AdminRole;               //  tell front end to execute braintree script code
             }
 
             else
