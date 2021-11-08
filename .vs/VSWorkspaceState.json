@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\ASP-Rocky-Tang",
+    "\\ASP-Rocky-Tang\\Rocky_DataAccess",
+    "\\ASP-Rocky-Tang\\Rocky_DataAccess\\Data"
   ],
-  "SelectedNode": "\\ASP-Rocky-Tang.sln",
+  "SelectedNode": "\\ASP-Rocky-Tang\\Rocky_DataAccess\\Data\\ApplicationDbContext.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -45,7 +45,12 @@ namespace Rocky
             // Register static file browsing www root path
             //services.AddDirectoryBrowser();
             // Register MVC
-            services.AddControllersWithViews(); 
+            services.AddControllersWithViews();
+
+            // Can use AddMvc() as well, it will add RazorPage Service as well
+            //https://stackoverflow.com/questions/62251347/services-addcontrollerswithviews-vs-services-addmvc
+            //services.AddMvc();
+
             // Register HttpContext so as we can use HttpContext
             services.AddHttpContextAccessor();
             // Add session
@@ -108,7 +113,7 @@ namespace Rocky
                 Options.AppSecret = "c7e7f58bf79500ebcaaa5745db67e3e6";
             });
 
-
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
